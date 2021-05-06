@@ -1,7 +1,7 @@
 import tensorflow as tf
 
-from EncoderLayer import EncoderLayer
-from Util import Util
+from model.EncoderLayer import EncoderLayer
+from model.Util import positional_encoding
 
 
 class Encoder(tf.keras.layers.Layer):
@@ -13,7 +13,7 @@ class Encoder(tf.keras.layers.Layer):
         self.num_layers = num_layers
 
         self.embedding = tf.keras.layers.Embedding(input_vocab_size, d_model)
-        self.pos_encoding = Util.positional_encoding(maximum_position_encoding,
+        self.pos_encoding = positional_encoding(maximum_position_encoding,
                                                 self.d_model)
 
         self.enc_layers = [EncoderLayer(d_model, num_heads, dff, rate)

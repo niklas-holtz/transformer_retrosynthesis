@@ -1,5 +1,7 @@
 import tensorflow as tf
-from Util import Util
+
+from model.Util import scaled_dot_product_attention
+
 
 class MultiHeadAttention(tf.keras.layers.Layer):
     def __init__(self, d_model, num_heads):
@@ -37,7 +39,7 @@ class MultiHeadAttention(tf.keras.layers.Layer):
 
         # scaled_attention.shape == (batch_size, num_heads, seq_len_q, depth)
         # attention_weights.shape == (batch_size, num_heads, seq_len_q, seq_len_k)
-        scaled_attention, attention_weights = Util.scaled_dot_product_attention(
+        scaled_attention, attention_weights = scaled_dot_product_attention(
             q, k, v, mask)
 
         scaled_attention = tf.transpose(scaled_attention,
