@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 from MultiHeadAttention import MultiHeadAttention
-from Util import point_wise_feed_forward_network
+from Util import Util
 
 
 class DecoderLayer(tf.keras.layers.Layer):
@@ -11,7 +11,7 @@ class DecoderLayer(tf.keras.layers.Layer):
         self.mha1 = MultiHeadAttention(d_model, num_heads)
         self.mha2 = MultiHeadAttention(d_model, num_heads)
 
-        self.ffn = point_wise_feed_forward_network(d_model, dff)
+        self.ffn = Util.point_wise_feed_forward_network(d_model, dff)
 
         self.layernorm1 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
         self.layernorm2 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
