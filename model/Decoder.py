@@ -1,7 +1,7 @@
 import tensorflow as tf
 
-from model.DecoderLayer import DecoderLayer
-from model.Util import positional_encoding
+from .DecoderLayer import DecoderLayer
+from .Util import positional_encoding
 
 
 class Decoder(tf.keras.layers.Layer):

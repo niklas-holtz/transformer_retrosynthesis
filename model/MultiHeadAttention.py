@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-from model.Util import scaled_dot_product_attention
+from .Util import scaled_dot_product_attention
 
 
 class MultiHeadAttention(tf.keras.layers.Layer):

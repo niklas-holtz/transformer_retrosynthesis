@@ -1,7 +1,7 @@
 import tensorflow as tf
 
-from model.Decoder import Decoder
-from model.Encoder import Encoder
+from .Decoder import Decoder
+from .Encoder import Encoder
 
 
 class Transformer(tf.keras.Model):
