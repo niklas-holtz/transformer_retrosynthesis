@@ -35,8 +35,7 @@ class SimpleTranslator():
         for i in range(max_length):
 
             # Predict
-            enc_padding_mask, look_ahead_mask, dec_padding_mask = self.model.create_masks(inp_sequence, output)
-            predictions, attention_weights = self.model(inp_sequence, output, False, enc_padding_mask, look_ahead_mask, dec_padding_mask)
+            predictions, attention_weights = self.model(inp_sequence, output, False)
             # select the last word from the seq_len dimension
             predictions = predictions[:, -1:, :]  # (batch_size, 1, vocab_size)
             predicted_id = tf.argmax(predictions, axis=-1)
