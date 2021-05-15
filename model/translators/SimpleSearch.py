@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
-from model.Transformer import Transformer
+from ..Transformer import Transformer
 
 
 class SimpleTranslator():
