@@ -124,7 +124,10 @@ class Beam:
     def next(self):
         new_nodes = []
         for i, token in enumerate(self.nodes):
-            predictions, _ = self.model(self.inp_sequence, token.current_output, False)
+            enc_padding_mask, look_ahead_mask, dec_padding_mask = self.model.create_masks(self.inp_sequence,
+                                                                                          token.current_output)
+            predictions, _ = self.model(self.inp_sequence, token.current_output, False, enc_padding_mask,
+                                        look_ahead_mask, dec_padding_mask)
             # Select all tokens from the seq_len dimension
             predictions = predictions[:, -1:, :]
 

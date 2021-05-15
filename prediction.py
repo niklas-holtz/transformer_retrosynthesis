@@ -44,7 +44,8 @@ with io.open('data/retrosynthesis-train.smi') as data:
     inp, tar = np.split(line, 2)
 
     tar_inp = tar[:, :-1]
-    predictions, _ = transformer(inp, tar_inp, False)
+    enc_padding_mask, look_ahead_mask, dec_padding_mask = transformer.create_masks(inp, tar_inp)
+    predictions, _ = transformer(inp, tar_inp, False, enc_padding_mask, look_ahead_mask, dec_padding_mask)
 
 # Load saved trained_models
 transformer.load_weights('trained_models/tr-1.h5')
