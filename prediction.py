@@ -1,5 +1,5 @@
 import io
-
+import time
 import numpy as np
 import tensorflow as tf
 
@@ -54,6 +54,12 @@ translator = BeamSearchTranslator(transformer)
 
 
 def predict_smiles(smiles, expected=""):
+    """
+    Creates a prediction based on a single smiles string.
+    :param smiles: the input smiles string
+    :param expected: the expected output (ground truth)
+    :return: the predicted smiles string (output)
+    """
     translated_smiles, translated_tokens, all_tokens = translator.predict(smiles, tk)
     print("Input smiles: \t{}".format(smiles))
     print("Output smiles: \t{}".format(translated_smiles))
@@ -90,11 +96,13 @@ def print_accuracies(lines_count):
 with io.open('data/retrosynthesis-test.smi') as data:
     lines = data.read().strip().split('\n')
     for i, line in enumerate(lines):
-        print('> Iteration: ' + str(i + 1))
+        print('\n> Iteration: ' + str(i + 1))
         if i >= MAX_LINES:
             break
+        start = time.time()
         line = line.split(' >> ')
         translated, _, all_tokens = predict_smiles(smiles=line[0], expected=line[1])
+        print(f'Time taken for 1 prediction: {time.time() - start:.2f} secs')
         calc_accuracies(all_tokens, ground_truth=line[1])
         print('> Current correct translations: ', cor_trans)
         print_accuracies(i+1)
