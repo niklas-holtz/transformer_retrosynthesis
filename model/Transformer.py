@@ -44,7 +44,10 @@ class Transformer(tf.keras.Model):
 
         return enc_padding_mask, combined_mask, dec_padding_mask
 
-    def call(self, inp, tar, training, enc_padding_mask, look_ahead_mask, dec_padding_mask ):
+    def call(self, inp, tar, training):
+        # Create masks
+        enc_padding_mask, look_ahead_mask, dec_padding_mask = self.create_masks(inp, tar)
+
         enc_output = self.tokenizer(inp, training, enc_padding_mask)  # (batch_size, inp_seq_len, d_model)
 
         # dec_output.shape == (batch_size, tar_seq_len, d_model)
