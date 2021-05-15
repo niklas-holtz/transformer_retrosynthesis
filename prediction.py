@@ -72,7 +72,7 @@ def predict_smiles(smiles, expected=""):
 # predict_smiles("c1ccc(Cn2ccc3ccccc32)cc1", "ClCc1ccccc1.c1ccc2[nH]ccc2c1")
 
 # Predict a file
-MAX_LINES = 200
+MAX_LINES = 250
 # Correct translations from from top-1 to top-5
 cor_trans = [0, 0, 0, 0, 0]
 
