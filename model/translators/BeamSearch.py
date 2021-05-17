@@ -80,10 +80,12 @@ class BeamSearchTranslator:
 
         # Output the best one
         best_token_seq = fin_nodes[0].current_output.numpy()[0]
-        text = tk.detokenize(best_token_seq)
+        #text = tk.detokenize(best_token_seq)
+        text = best_token_seq
 
         # Output the rest
-        all_token_seq = [tk.detokenize(token.current_output.numpy()[0]) for token in fin_nodes]
+        #all_token_seq = [tk.detokenize(token.current_output.numpy()[0]) for token in fin_nodes]
+        all_token_seq = [token.current_output.numpy()[0] for token in fin_nodes]
 
         print('> Prediction finished ... ')
 
