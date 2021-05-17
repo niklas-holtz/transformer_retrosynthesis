@@ -37,7 +37,7 @@ class BeamSearchTranslator:
         fin_nodes = []
 
         print('> Starting predictions ...')
-        beam = Beam(self.model, inp_sequence, output, beam_size, tk)
+        beam = Beam(self.model, inp_sequence, output, beam_size)
 
         # Start Prediction
         for i in range(max_length):
@@ -64,9 +64,6 @@ class BeamSearchTranslator:
             else:
                 fin_nodes += beam.nodes
 
-        # print('> Final nodes ... ')
-        # print_token_predictions(fin_nodes, tk)
-
         # Normalization
         for node in fin_nodes:
             node_out = node.current_output.numpy()[0]
@@ -80,12 +77,12 @@ class BeamSearchTranslator:
 
         # Output the best one
         best_token_seq = fin_nodes[0].current_output.numpy()[0]
-        #text = tk.detokenize(best_token_seq)
-        text = best_token_seq
+        text = tk.detokenize(best_token_seq)
+        #text = best_token_seq
 
         # Output the rest
-        #all_token_seq = [tk.detokenize(token.current_output.numpy()[0]) for token in fin_nodes]
-        all_token_seq = [token.current_output.numpy()[0] for token in fin_nodes]
+        all_token_seq = [tk.detokenize(token.current_output.numpy()[0]) for token in fin_nodes]
+        # all_token_seq = [token.current_output.numpy()[0] for token in fin_nodes]
 
         print('> Prediction finished ... ')
 
@@ -116,12 +113,11 @@ def get_output_tensor(sequence):
 
 class Beam:
 
-    def __init__(self, model, inp_sequence, start_output, beam_size, tk):
+    def __init__(self, model, inp_sequence, start_output, beam_size):
         self.model = model
         self.inp_sequence = inp_sequence
         self.nodes = [SequenceNode(start_output, 0)]
         self.beam_size = beam_size
-        self.tk = tk
 
     def next(self):
         new_nodes = []
