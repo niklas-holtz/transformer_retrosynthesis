@@ -13,12 +13,13 @@ np.set_printoptions(suppress=False)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 
 # Some hyper variables
-num_layers = 4
+num_layers = 5
 d_model = 128
 dff = 512
 num_heads = 8
-dropout_rate = 0.1
-EPOCHS = 10
+dropout_rate = 0.25
+batch_size = 64
+EPOCHS = 20
 
 # Tokenizer
 tk = Tokenizer()
@@ -47,7 +48,9 @@ with io.open('data/retrosynthesis-train.smi') as data:
     predictions, _ = transformer(inp, tar_inp, False)
 
 # Load saved trained_models
-transformer.load_weights('trained_models/tr-1.h5')
+transformer.load_weights('trained_models/tr-5.h5')
+
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 # Create the translator
 translator = BeamSearchTranslator(transformer)
@@ -93,16 +96,17 @@ def print_accuracies(lines_count):
         print('> Top ' + str(index + 1) + ': ' + str(trans / lines_count))
 
 
-with io.open('data/retrosynthesis-test.smi') as data:
-    lines = data.read().strip().split('\n')
-    for i, line in enumerate(lines):
-        print('\n> Iteration: ' + str(i + 1))
-        if i >= MAX_LINES:
-            break
-        start = time.time()
-        line = line.split(' >> ')
-        translated, _, all_tokens = predict_smiles(smiles=line[0], expected=line[1])
-        print(f'Time taken for 1 prediction: {time.time() - start:.2f} secs')
-        calc_accuracies(all_tokens, ground_truth=line[1])
-        print('> Current correct translations: ', cor_trans)
-        print_accuracies(i+1)
+with tf.device('/GPU:0'):
+    with io.open('data/retrosynthesis-test.smi') as data:
+        lines = data.read().strip().split('\n')
+        for i, line in enumerate(lines):
+            if i >= MAX_LINES:
+                break
+            print('\n> Iteration: ' + str(i + 1))
+            start = time.time()
+            line = line.split(' >> ')
+            translated, _, all_tokens = predict_smiles(smiles=line[0], expected=line[1])
+            print(f'Time taken for 1 prediction: {time.time() - start:.2f} secs')
+            calc_accuracies(all_tokens, ground_truth=line[1])
+            print('> Current correct translations: ', cor_trans)
+            print_accuracies(i + 1)
