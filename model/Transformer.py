@@ -1,3 +1,5 @@
+import time
+
 import tensorflow as tf
 
 from .Decoder import Decoder

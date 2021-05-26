@@ -8,6 +8,8 @@ from model.Transformer import Transformer
 from model.translators.BeamSearch import BeamSearchTranslator
 
 # To show proper values when using numpy
+from model.translators.SimpleSearch import SimpleTranslator
+
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=False)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
@@ -50,11 +52,9 @@ with io.open('data/retrosynthesis-train.smi') as data:
 # Load saved trained_models
 transformer.load_weights('trained_models/tr-5.h5')
 
-print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-
 # Create the translator
-translator = BeamSearchTranslator(transformer)
-
+# translator = BeamSearchTranslator(transformer)
+translator = SimpleTranslator(transformer)
 
 def predict_smiles(smiles, expected=""):
     """
@@ -67,7 +67,7 @@ def predict_smiles(smiles, expected=""):
     print("Input smiles: \t{}".format(smiles))
     print("Output smiles: \t{}".format(translated_smiles))
     print("Ground truth: \t{}".format(expected))
-    print("All predictions: {}".format(all_tokens))
+    # print("All predictions: {}".format(all_tokens))
     return translated_smiles, translated_tokens, all_tokens
 
 

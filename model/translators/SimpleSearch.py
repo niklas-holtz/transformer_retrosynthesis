@@ -4,7 +4,7 @@ import tensorflow as tf
 from ..Transformer import Transformer
 
 
-class SimpleTranslator():
+class SimpleTranslator:
 
     def __init__(self, model: Transformer):
         self.model = model
