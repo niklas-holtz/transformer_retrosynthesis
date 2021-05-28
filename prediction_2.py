@@ -1,17 +1,22 @@
+"""
+Dieser Ansatz baut auf das Transformer-Paper auf und versucht einen anderen Ansatz des Beam Searches zu
+implementieren, um so eine schnellere Ausführung zu ermöglichen.
+"""
 import io
 import math
 import os
 import time
+
 import numpy as np
 import tensorflow as tf
 from rdkit import Chem
+
 from model.Tokenizer import Tokenizer
 from model.Transformer import Transformer
 
 # use a CPU
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-
 
 # To show proper values when using numpy
 np.set_printoptions(precision=3)
