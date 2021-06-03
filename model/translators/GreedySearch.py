@@ -9,7 +9,7 @@ class GreedyTranslator:
     def __init__(self, model: Transformer):
         self.model = model
 
-    def predict(self, sequence, tk, max_length=30):
+    def predict(self, sequence, tk, max_length=160):
         """
         :param sequence: the sequence to be translated
         :param tk: the tokenizer
