@@ -8,7 +8,7 @@ from model.Transformer import Transformer
 from model.translators.BeamSearch import BeamSearchTranslator
 
 # To show proper values when using numpy
-from model.translators.SimpleSearch import SimpleTranslator
+from model.translators.GreedySearch import GreedyTranslator
 
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=False)
@@ -54,7 +54,7 @@ transformer.load_weights('trained_models/tr-5.h5')
 
 # Create the translator
 # translator = BeamSearchTranslator(transformer)
-translator = SimpleTranslator(transformer)
+translator = GreedyTranslator(transformer)
 
 def predict_smiles(smiles, expected=""):
     """
