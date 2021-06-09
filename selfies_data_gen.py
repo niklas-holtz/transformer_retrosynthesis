@@ -11,6 +11,7 @@ print('Creating dataset for ' + str(num_entries) + ' out of ' + str(len(lines)) 
 # Split the entries
 word_pairs = [[w for w in l.split(' >> ')[0:2]] for l in lines[:num_entries]]
 
+"""
 # Create selfies dataset
 dataset = []
 for l in lines[:num_entries]:
@@ -20,7 +21,6 @@ for l in lines[:num_entries]:
 alphabet = sf.get_alphabet_from_selfies(dataset)
 print(alphabet)
 
-"""
 alphabet = ['[^]', '.', '[nop]', '[S@expl]', '[/Snexpl]', '[BH3-expl]', '[/B]', '[SiH2expl]', '[\\Cl]', '[/P]', '[=P]', '[Branch1_1]', '[F]',
             '[BH-expl]', '[Expl=Ring1]', '[Branch2_2]', '[/N+expl]', '[P]', '[OH-expl]', '[Ring1]', '[Branch2_3]',
             '[O-expl]', '[N+expl]', '[NH2+expl]', '[=P+expl]', '[#N+expl]', '[SnHexpl]', '[N]', '[=Ptexpl]',
@@ -34,6 +34,7 @@ alphabet = ['[^]', '.', '[nop]', '[S@expl]', '[/Snexpl]', '[BH3-expl]', '[/B]', 
             '[/S@@expl]', '[/O]', '[C]', '[O]', '[Branch1_2]', '[/I]', '[NH3+expl]', '[\\S]', '[Zn+expl]', '[Feexpl]',
             '[\\C]', '[/C@@Hexpl]', '[NH4+expl]', '[/C]', '[Cuexpl]', '[\\F]', '[Liexpl]', '[C@@expl]', '[\\N]',
             '[PH2expl]', '[$]']
+            """
 
 alphabet = ['[^]', '.', '[nop]', '[C@expl]', '[Br]', '[/I]', '[B-expl]', '[C@Hexpl]', '[Branch1_2]', '[Expl=Ring2]', '[P]', '[Mg+expl]', 
 '[NH2+expl]', '[S@expl]', '[Expl=Ring1]', '[NH+expl]', '[/S]', '[Cl]', '[C@@expl]', '[Seexpl]', '[=SHexpl]', 
@@ -49,7 +50,11 @@ alphabet = ['[^]', '.', '[nop]', '[C@expl]', '[Br]', '[/I]', '[B-expl]', '[C@Hex
 '[S-expl]', '[/C@@Hexpl]', '[=S+expl]', '[Br-expl]', '[N@+expl]', '[$]'] 
 
 test = "COC(=O)c1ccc(Br)cc1.Nc1ccccc1"
-test_set = ['Nc1nc2[nH]c(CCCc3csc(C(=O)O)c3)cc2c(=O)[nH]1', 'O=c1c2cc(CCCc3cc(C(=O)O)sc3)[nH]c2nc(N)[nH]1']
+test_set = ['Fc1cc2c(Cl)ncnc2cn1.NC1CCCCCC1',
+'n1c(F)cc2c(Cl)ncnc2c1.C1CCC(N)CCC1',
+'C1CCC(N)CCC1.c12c(ncnc1Cl)cnc(F)c2',
+'c1(F)cc2c(Cl)ncnc2cn1.C1CCC(N)CCC1',
+'NC1CCCCCC1.n1cnc2c(c1Cl)cc(F)nc2']
 
 char_to_ix = {s: i for i, s in enumerate(alphabet)}
 ix_to_char = {i: s for i, s in enumerate(alphabet)}
@@ -75,4 +80,3 @@ k = sf.decoder(k)
 l = '[^][C][O][C][Branch1_2][C][=O][C][=C][C][=C][Branch1_1][C][Br][C][=C][Ring1][Branch1_3].[N][C][=C][C][=C][C][=C][Ring1][Branch1_2][$]'
 
 print(k)
-"""

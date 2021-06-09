@@ -24,7 +24,7 @@ def randomize_smiles(mol, random_type="restricted"):
 
 
 num_entries = None
-path = "data/retrosynthesis-train.smi"
+path = "data/retrosynthesis-all.smi"
 
 # Load the lines from the file and separate them
 lines = io.open(path, encoding='UTF-8').read().strip().split('\n')
@@ -32,12 +32,9 @@ print('Creating dataset for ' + str(num_entries) + ' out of ' + str(len(lines)) 
 # Split the entries
 word_pairs = [[w for w in l.split(' >> ')[0:2]] for l in lines[:num_entries]]
 
-with open("data/retrosynthesis-artificial_2.smi", 'w') as file:
-    for i, pair in enumerate(word_pairs):
-        prod = pair[0]
-        reactant = pair[1]
-        file.write(prod + " >> " + reactant + "\n")
 
+def gen_random(prod, reactant, amount):
+    for i in range(amount):
         # Alternative form using selfies decode
         prod2 = randomize_smiles(to_mol(prod))
 
@@ -60,6 +57,7 @@ with open("data/retrosynthesis-artificial_2.smi", 'w') as file:
         attempts = 0
         fail = False
         while Chem.CanonSmiles(reactant) != Chem.CanonSmiles(reactant2):
+            random.seed()
             reactant2 = randomize_smiles(to_mol(reactant))
             attempts += 1
             if attempts > 10:
@@ -71,5 +69,13 @@ with open("data/retrosynthesis-artificial_2.smi", 'w') as file:
             continue
 
         file.write(prod2 + " >> " + reactant2 + "\n")
+
+with open("data/retrosynthesis-artificial_6.smi", 'w') as file:
+    for i, pair in enumerate(word_pairs):
+        prod = pair[0]
+        reactant = pair[1]
+        file.write(prod + " >> " + reactant + "\n")
+
+        gen_random(prod, reactant, 4)
 
 

@@ -20,6 +20,7 @@ class BeamSearchTranslator:
         :param beam_size: the size of the beam
         :return: the translated sequence
         """
+        global count
         # Tokenize the input
         inp_sequence = tk.tokenize(sequence)
         inp_sequence = tf.convert_to_tensor(inp_sequence, np.int64)
@@ -78,14 +79,13 @@ class BeamSearchTranslator:
         # Output the best one
         best_token_seq = fin_nodes[0].current_output.numpy()[0]
         text = tk.detokenize(best_token_seq)
-        #text = best_token_seq
+        # text = best_token_seq
 
         # Output the rest
         all_token_seq = [tk.detokenize(token.current_output.numpy()[0]) for token in fin_nodes]
         # all_token_seq = [token.current_output.numpy()[0] for token in fin_nodes]
 
         print('> Prediction finished ... ')
-
         return text, best_token_seq, all_token_seq
 
 
@@ -120,6 +120,7 @@ class Beam:
         self.beam_size = beam_size
 
     def next(self):
+        global count
         new_nodes = []
         for i, token in enumerate(self.nodes):
             predictions, _ = self.model(self.inp_sequence, token.current_output, False)
