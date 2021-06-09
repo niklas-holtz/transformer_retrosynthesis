@@ -24,7 +24,7 @@ batch_size = 32
 EPOCHS = 20
 
 # Tokenizer
-tk = trans.SmilesTokenizer()
+tk = trans.tokenizers.SmilesTokenizer()
 
 # Create the model
 transformer = trans.Transformer(
