@@ -1,8 +1,3 @@
-__name__ = "retrosynthesis_transformer"
-__author__ = "Niklas Holtz"
-__version__ = "1.0"
-__license__ = "MIT"
-
 from .Decoder import  Decoder
 from .DecoderLayer import DecoderLayer
 from .Encoder import EncoderLayer
