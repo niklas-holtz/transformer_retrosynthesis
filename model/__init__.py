@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from .Decoder import Decoder
 from .DecoderLayer import DecoderLayer
 from .Encoder import EncoderLayer
