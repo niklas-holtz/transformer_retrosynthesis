@@ -70,12 +70,12 @@ def gen_random(prod, reactant, amount):
 
         file.write(prod2 + " >> " + reactant2 + "\n")
 
-with open("data/retrosynthesis-artificial_6.smi", 'w') as file:
+with open("data/retrosynthesis-artificial_7.smi", 'w') as file:
     for i, pair in enumerate(word_pairs):
         prod = pair[0]
         reactant = pair[1]
         file.write(prod + " >> " + reactant + "\n")
 
-        gen_random(prod, reactant, 4)
+        gen_random(prod, reactant, 8)
 
 
