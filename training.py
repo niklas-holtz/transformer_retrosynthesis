@@ -5,8 +5,10 @@ import numpy as np
 import tensorflow as tf
 
 # To show proper values when using numpy
-from model.tokenizers.SmilesTokenizer import SmilesTokenizer
-from model.Transformer import Transformer
+#from model.tokenizers.SmilesTokenizer import SmilesTokenizer
+#from model.Transformer import Transformer
+
+import model as trans
 
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=False)
@@ -22,10 +24,10 @@ batch_size = 32
 EPOCHS = 20
 
 # Tokenizer
-tk = SmilesTokenizer()
+tk = trans.SmilesTokenizer()
 
 # Create the model
-transformer = Transformer(
+transformer = trans.Transformer(
     num_layers=num_layers,
     d_model=d_model,
     num_heads=num_heads,
