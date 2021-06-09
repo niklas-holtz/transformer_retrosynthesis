@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 
 # To show proper values when using numpy
-from model.Tokenizer import Tokenizer
+from model.tokenizers.SmilesTokenizer import SmilesTokenizer
 from model.Transformer import Transformer
 
 np.set_printoptions(precision=3)
@@ -22,7 +22,7 @@ batch_size = 32
 EPOCHS = 20
 
 # Tokenizer
-tk = Tokenizer()
+tk = SmilesTokenizer()
 
 # Create the model
 transformer = Transformer(

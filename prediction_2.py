@@ -11,7 +11,7 @@ import numpy as np
 import tensorflow as tf
 from rdkit import Chem
 
-from model.Tokenizer import Tokenizer
+from model.tokenizers.SmilesTokenizer import SmilesTokenizer
 from model.Transformer import Transformer
 
 # use a CPU
@@ -33,7 +33,7 @@ batch_size = 128
 EPOCHS = 200
 
 # Tokenizer
-tk = Tokenizer()
+tk = SmilesTokenizer()
 
 # Create the model
 transformer = Transformer(

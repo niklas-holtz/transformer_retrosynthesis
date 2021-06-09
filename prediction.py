@@ -3,7 +3,7 @@ import time
 import numpy as np
 import tensorflow as tf
 
-from model.Tokenizer import Tokenizer
+from model.tokenizers.SmilesTokenizer import SmilesTokenizer
 from model.Transformer import Transformer
 from model.translators.BeamSearch import BeamSearchTranslator
 
@@ -13,7 +13,6 @@ tfe = tf.contrib.eager
 tfe.enable_eager_execution()
 
 # To show proper values when using numpy
-from model.translators.GreedySearch import GreedyTranslator
 
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=False)
@@ -29,7 +28,7 @@ batch_size = 64
 EPOCHS = 20
 
 # Tokenizer
-tk = Tokenizer()
+tk = SmilesTokenizer()
 
 # Create the model
 transformer = Transformer(
