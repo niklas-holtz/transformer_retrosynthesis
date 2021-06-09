@@ -1,6 +1,6 @@
 import selfies as sf
 
-from model import SmilesTokenizer
+from . import SmilesTokenizer
 
 
 class SelfiesTokenizer(SmilesTokenizer):
