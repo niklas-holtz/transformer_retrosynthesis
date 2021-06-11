@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 from rdkit import Chem
 
-from .. import BeamSearchTranslator
+from . import BeamSearchTranslator
 from ..Transformer import Transformer
 
 
