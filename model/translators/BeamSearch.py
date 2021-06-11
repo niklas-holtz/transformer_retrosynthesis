@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 import tensorflow as tf
+from rdkit import Chem
 
 from ..Transformer import Transformer
 
@@ -11,7 +12,7 @@ class BeamSearchTranslator:
     def __init__(self, model: Transformer):
         self.model = model
 
-    def predict(self, sequence, tk, max_length=160, beam_size=5, minimum_predictions=5):
+    def predict(self, sequence, tk, max_length=160, beam_size=5, minimum_predictions=5, validity_check=False):
         """
         :param minimum_predictions: minimum amount of predictions to return
         :param sequence: the sequence to be translated
@@ -45,9 +46,17 @@ class BeamSearchTranslator:
             # print('> Prediction number ', i)
             beam.next()
 
-            # Check if one node created an eos token
             for node in beam.nodes[:]:  # [:] creates a copy
                 node_out = node.current_output.numpy()[0]
+
+                # Check if one node created a non valid string
+                node_smiles = tk.detokenize(node_out)
+                if Chem.MolFromSmiles(node_smiles) is None:
+                    # Remove if is none
+                    print("None!!")
+                    beam.nodes.remove(node)
+
+                # Check if one node created an eos token
                 if node_out[-1] == eos_token:
                     # Save the nodes and remove them from the original list and continue searching with other nodes
                     fin_nodes.append(node)
