@@ -9,3 +9,4 @@ from .tokenizers.SmilesTokenizer import SmilesTokenizer
 from .tokenizers.SelfiesTokenizer import SelfiesTokenizer
 from .translators.GreedySearch import GreedyTranslator
 from .translators.BeamSearch import BeamSearchTranslator
+from .translators.ForwardSearch import ForwardSearchTranslator
