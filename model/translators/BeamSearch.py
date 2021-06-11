@@ -49,18 +49,22 @@ class BeamSearchTranslator:
             for node in beam.nodes[:]:  # [:] creates a copy
                 node_out = node.current_output.numpy()[0]
 
-                # Check if one node created a non valid string
-                node_smiles = tk.detokenize(node_out)
-                if Chem.MolFromSmiles(node_smiles) is None:
-                    # Remove if is none
-                    print("None!!")
-                    beam.nodes.remove(node)
-
                 # Check if one node created an eos token
                 if node_out[-1] == eos_token:
-                    # Save the nodes and remove them from the original list and continue searching with other nodes
-                    fin_nodes.append(node)
                     beam.nodes.remove(node)
+                    # Check if the node created a non valid string
+                    node_smiles = tk.detokenize(node_out)
+                    if Chem.MolFromSmiles(node_smiles) is not None:
+                        # Remove if is none
+                        print("Not None!!")
+                        # Save the nodes and remove them from the original list and continue searching with other nodes
+                        fin_nodes.append(node)
+                    else:
+                        print("None!!")
+
+
+
+
 
             # Stop if at least n completed nodes have been found
             if len(fin_nodes) >= minimum_predictions:
