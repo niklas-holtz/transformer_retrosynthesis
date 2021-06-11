@@ -12,8 +12,10 @@ class BeamSearchTranslator:
     def __init__(self, model: Transformer):
         self.model = model
 
-    def predict(self, sequence, tk, max_length=160, beam_size=5, minimum_predictions=5, validity_check=False):
+    def predict(self, sequence, tk, max_length=160, beam_size=5, minimum_predictions=5, validity_check=True, max_false_predictions=10):
         """
+        :param max_false_predictions:
+        :param validity_check:
         :param minimum_predictions: minimum amount of predictions to return
         :param sequence: the sequence to be translated
         :param tk: the tokenizer
@@ -21,7 +23,6 @@ class BeamSearchTranslator:
         :param beam_size: the size of the beam
         :return: the translated sequence
         """
-        global count
         # Tokenize the input
         inp_sequence = tk.tokenize(sequence)
         inp_sequence = tf.convert_to_tensor(inp_sequence, np.int64)
@@ -37,6 +38,9 @@ class BeamSearchTranslator:
 
         # Nodes with finished sequences
         fin_nodes = []
+
+        # Count the false smiles predictions
+        false_predictions = 0
 
         print('> Starting predictions ...')
         beam = Beam(self.model, inp_sequence, output, beam_size)
@@ -54,17 +58,18 @@ class BeamSearchTranslator:
                     beam.nodes.remove(node)
                     # Check if the node created a non valid string
                     node_smiles = tk.detokenize(node_out)
-                    if Chem.MolFromSmiles(node_smiles) is not None:
-                        # Remove if is none
-                        print("Not None!!")
-                        # Save the nodes and remove them from the original list and continue searching with other nodes
-                        fin_nodes.append(node)
+
+                    if validity_check and false_predictions < max_false_predictions:
+                        if Chem.MolFromSmiles(node_smiles) is not None:
+                            # Save the nodes and remove them from the original list and continue searching with other
+                            # nodes
+                            fin_nodes.append(node)
+                        else:
+                            # Increase the the false predictions amount
+                            false_predictions += 1
+                            # Look for another node
                     else:
-                        print("None!!")
-
-
-
-
+                        fin_nodes.append(node)
 
             # Stop if at least n completed nodes have been found
             if len(fin_nodes) >= minimum_predictions:
@@ -133,7 +138,6 @@ class Beam:
         self.beam_size = beam_size
 
     def next(self):
-        global count
         new_nodes = []
         for i, token in enumerate(self.nodes):
             predictions, _ = self.model(self.inp_sequence, token.current_output, False)
