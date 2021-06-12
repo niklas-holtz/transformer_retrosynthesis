@@ -2,15 +2,7 @@ import io
 import time
 import numpy as np
 import tensorflow as tf
-
-from model.tokenizers.SmilesTokenizer import SmilesTokenizer
-from model.Transformer import Transformer
-from model.translators.BeamSearch import BeamSearchTranslator
-
-
-# Enable TF Eager execution
-tfe = tf.contrib.eager
-tfe.enable_eager_execution()
+import model as trans
 
 # To show proper values when using numpy
 
@@ -19,19 +11,19 @@ np.set_printoptions(suppress=False)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 
 # Some hyper variables
-num_layers = 5
+num_layers = 4
 d_model = 128
 dff = 512
 num_heads = 8
-dropout_rate = 0.25
-batch_size = 64
-EPOCHS = 20
+dropout_rate = 0.1
+batch_size = 128
+EPOCHS = 100
 
 # Tokenizer
-tk = SmilesTokenizer()
+tk = trans.SmilesTokenizer()
 
 # Create the model
-transformer = Transformer(
+transformer = trans.Transformer(
     num_layers=num_layers,
     d_model=d_model,
     num_heads=num_heads,
@@ -53,11 +45,36 @@ with io.open('data/retrosynthesis-train.smi') as data:
     tar_inp = tar[:, :-1]
     predictions, _ = transformer(inp, tar_inp, False)
 
+forward_model = trans.Transformer(
+    num_layers=num_layers,
+    d_model=d_model,
+    num_heads=num_heads,
+    dff=dff,
+    input_vocab_size=tk.get_vocab_size(),
+    target_vocab_size=tk.get_vocab_size(),
+    pe_input=1000,
+    pe_target=1000,
+    rate=dropout_rate)
+
+# Load the first line to initialize the transformer model
+with io.open('data/retrosynthesis-valid.smi') as data:
+    line = data.read().strip().split('\n')[0].split(' >> ')
+    line[0] = tk.tokenize(line[0])
+    line[1] = tk.tokenize(line[1])
+    line = tf.keras.preprocessing.sequence.pad_sequences(line, value=0, padding='post', dtype='int64', maxlen=199)
+    inp, tar = np.split(line, 2)
+
+    tar_inp = tar[:, :-1]
+    predictions, _ = forward_model(inp, tar_inp, False)
+
+
+forward_model.load_weights('trained_models/tr-forward-1.h5')
+
 # Load saved trained_models
-transformer.load_weights('trained_models/tr-5.h5')
+transformer.load_weights('trained_models/tr-100e_128b.h5')
 
 # Create the translator
-translator = BeamSearchTranslator(transformer)
+translator = trans.ForwardSearchTranslator(transformer, forward_model)
 # translator = GreedyTranslator(transformer)
 
 def predict_smiles(smiles, expected=""):

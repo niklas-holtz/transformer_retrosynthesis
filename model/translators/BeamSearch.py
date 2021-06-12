@@ -12,7 +12,7 @@ class BeamSearchTranslator:
     def __init__(self, model: Transformer):
         self.model = model
 
-    def predict(self, sequence, tk, max_length=160, beam_size=5, minimum_predictions=5, validity_check=True, max_false_predictions=10):
+    def predict(self, sequence, tk, max_length=160, beam_size=5, minimum_predictions=5, validity_check=True, max_false_predictions=10, print_console=True):
         """
         :param max_false_predictions:
         :param validity_check:
@@ -42,7 +42,8 @@ class BeamSearchTranslator:
         # Count the false smiles predictions
         false_predictions = 0
 
-        print('> Starting predictions ...')
+        if print_console:
+            print('> Starting predictions ...')
         beam = Beam(self.model, inp_sequence, output, beam_size)
 
         # Start Prediction
@@ -103,7 +104,8 @@ class BeamSearchTranslator:
         all_token_seq = [tk.detokenize(token.current_output.numpy()[0]) for token in fin_nodes]
         # all_token_seq = [token.current_output.numpy()[0] for token in fin_nodes]
 
-        print('> Prediction finished ... ')
+        if print_console:
+            print('> Prediction finished ... ')
         return text, best_token_seq, all_token_seq
 
 
