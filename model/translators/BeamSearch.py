@@ -95,6 +95,9 @@ class BeamSearchTranslator:
         # print('> Normlization ... ')
         # print_token_predictions(fin_nodes, tk)
 
+        if len(fin_nodes) < 1:
+            return "", [], []
+
         # Output the best one
         best_token_seq = fin_nodes[0].current_output.numpy()[0]
         text = tk.detokenize(best_token_seq)
