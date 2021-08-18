@@ -3,7 +3,7 @@ import numpy as np
 
 class SmilesTokenizer:
     #chars = " ^#%()+-./0123456789=@ABCDEFGHIKLMNOPRSTUVXYZ[\\]abcdefgilmnoprstuy$"
-    chars = " ^#%()+-.0123456789=@ABCDEFGHIKLMNOPRSTVXYZ[\\]abcdefgilmnoprstuy$"
+    chars = " ^#%()+-./0123456789=@ABCDEFGHIKLMNOPRSTVXYZ[\\]abcdefgilmnoprstuy$"
     vocab_size = len(chars)
 
     def __init__(self):
