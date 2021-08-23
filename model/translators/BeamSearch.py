@@ -61,7 +61,7 @@ class BeamSearchTranslator:
                     node_smiles = tk.detokenize(node_out)
 
                     if validity_check and false_predictions < max_false_predictions:
-                        if Chem.MolFromSmiles(node_smiles) is not None:
+                        if node_smiles is not None and Chem.MolFromSmiles(node_smiles) is not None:
                             # Save the nodes and remove them from the original list and continue searching with other
                             # nodes
                             fin_nodes.append(node)
