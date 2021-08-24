@@ -10,7 +10,7 @@ print('Creating dataset for ' + str(num_entries) + ' out of ' + str(len(lines)) 
 word_pairs = [[w for w in l.split(' >> ')[0:2]] for l in lines[:num_entries]]
 
 
-with open("data/retrosynthesis-train-forward-all.smi", 'w') as file:
+with open("data/retrosynthesis-forward-all.smi", 'w') as file:
     for i, pair in enumerate(word_pairs):
         prod = pair[0]
         reactant = pair[1]
