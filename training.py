@@ -21,7 +21,7 @@ dff = 512
 num_heads = 8
 dropout_rate = 0.25
 batch_size = 32
-EPOCHS = 20
+EPOCHS = 2
 
 # Tokenizer
 tk = trans.tokenizers.SmilesTokenizer()
@@ -181,11 +181,11 @@ def main_train(dataset, transformer, n_epochs=EPOCHS, print_every=50):
 tf.debugging.set_log_device_placement(False)
 
 # Start training
-with tf.device('/GPU:0'):
-    losses, accuracies = main_train(dataset, transformer, print_every=100)
+#with tf.device('/GPU:0'):
+losses, accuracies = main_train(dataset, transformer, print_every=100)
 
 # Model name
-model_name = "tr-6"
+model_name = "tr-test"
 
 # Save the model
 transformer.save_weights(model_name + ".h5", save_format="h5")
