@@ -3,7 +3,7 @@ import time
 
 import numpy as np
 import tensorflow as tf
-
+import matplotlib.pyplot as plt
 import model as trans
 
 # To show proper values when using numpy
@@ -28,6 +28,9 @@ def main():
     parser.add_argument('--output_path', type=str, default='', help='The output directory of the model. If no path is '
                                                                     'specified, the model is simply saved in the '
                                                                     'original directory.')
+    # Optional plotting
+    parser.add_argument('--plot', type=bool, default=True, help='Whether the plot of the loss and accuracy data of '
+                                                                'the training should be plotted.')
     # Required arguments
     parser.add_argument('--data_path', type=str, required=True, help='The path of the dataset that is used to train '
                                                                      'the model.')
@@ -152,12 +155,13 @@ def main():
             for (batch, (inp, tar)) in enumerate(dataset):
                 train_step(inp, tar)
 
-                # Print and save losses and accuracies
+                # Print for each desired batch
                 if batch % print_every == 0:
-                    losses.append(train_loss.result())
-                    accuracies.append(train_accuracy.result())
                     print("Epoch {} Batch {} Loss {:.4f} Accuracy {:.4f}".format(epoch + 1, batch, train_loss.result(),
                                                                                  train_accuracy.result()))
+            # Save losses and accuracies
+            losses.append(train_loss.result())
+            accuracies.append(train_accuracy.result())
             print(f'Time taken for 1 epoch: {time.time() - start:.2f} secs\n')
         return losses, accuracies
 
@@ -171,6 +175,20 @@ def main():
 
     # Save the model
     transformer.save_weights(directory + args.name + ".h5", save_format="h5")
+
+    if args.plot:
+        # Show some results from training
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+        # plot some data
+        ax1.plot(losses, label='loss')
+        # plt.plot(results.history['val_loss'], label='val_loss')
+        ax1.set_title('Training Loss')
+        ax1.legend()
+        # accuracies
+        ax2.plot(accuracies, label='acc')
+        # plt.plot(results.history['val_accuracy_fn'], label='val_acc')
+        ax2.set_title('Training Accuracy')
+        plt.savefig(directory + args.name + '_plot.png')
 
 
 if __name__ == '__main__':
