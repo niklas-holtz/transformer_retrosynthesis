@@ -1,6 +1,6 @@
 import argparse
 import time
-
+import csv
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -20,9 +20,8 @@ def main():
     parser.add_argument('--dff', type=int, default=512)
     parser.add_argument('--heads', type=int, default=8, help='Number of heads during the attention calculation.')
     parser.add_argument('--dropout', type=float, default=0.1, help='The dropout rate of the model while training.')
-    parser.add_argument('--batch_size', type=int, default=128, help='The size of each batch while training the model.')
     parser.add_argument('--warmup', type=int, default=4000, help='The warmup value of the learning rate optimizer.')
-
+    parser.add_argument('--batch_size', type=int, default=128, help='The size of each batch during the training.')
     # Name and output path
     parser.add_argument('--name', type=str, default='retro_trans', help='The name of the model to be trained (without '
                                                                         '.h5 extension).')
@@ -32,6 +31,7 @@ def main():
     # Optional plotting
     parser.add_argument('--plot', type=bool, default=True, help='Whether the plot of the loss and accuracy data of '
                                                                 'the training should be plotted.')
+    parser.add_argument('--csv', type=bool, default=True, help='Whether the plot data should be saved as a csv file.')
     # Required arguments
     parser.add_argument('--data_path', type=str, required=True, help='The path of the dataset that is used to train '
                                                                      'the model.')
@@ -188,6 +188,13 @@ def main():
         ax2.plot(accuracies, label='acc')
         ax2.set_title('Training Accuracy')
         plt.savefig(directory + args.name + '_plot.png')
+    if args.csv:
+        # save plot data as csv
+        with open(directory + args.name + '_plot_data.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(['Losses', 'Accuracies'])
+            for loss, acc in zip(losses, accuracies):
+                writer.writerow([loss.numpy(), acc.numpy()])
 
 
 if __name__ == '__main__':
