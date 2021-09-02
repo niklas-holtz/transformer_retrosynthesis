@@ -37,6 +37,9 @@ def main():
                                                                      'the model.')
     parser.add_argument('--epochs', type=int, default=100, required=True, help='Number of epochs the model is to be '
                                                                                'trained.')
+    # Load a pretrained model
+    parser.add_argument('--pre', type=str, default='')
+
 
     args = parser.parse_args()
 
@@ -54,6 +57,10 @@ def main():
         pe_input=1000,
         pe_target=1000,
         rate=args.dropout)
+
+    # Pretrained model
+    if len(args.pre) > 0:
+        transformer.load_weights(args.pre)
 
     # Use a DatasetGenerator in order to load all data from a given path and combine it in a single dataset object
     generator = trans.DatasetGenerator(tk)
