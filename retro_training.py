@@ -22,6 +22,7 @@ def main():
     parser.add_argument('--dropout', type=float, default=0.1, help='The dropout rate of the model while training.')
     parser.add_argument('--batch_size', type=int, default=128, help='The size of each batch while training the model.')
     parser.add_argument('--warmup', type=int, default=4000, help='The warmup value of the learning rate optimizer.')
+
     # Name and output path
     parser.add_argument('--name', type=str, default='retro_trans', help='The name of the model to be trained (without '
                                                                         '.h5 extension).')
@@ -181,12 +182,10 @@ def main():
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
         # plot some data
         ax1.plot(losses, label='loss')
-        # plt.plot(results.history['val_loss'], label='val_loss')
         ax1.set_title('Training Loss')
         ax1.legend()
         # accuracies
         ax2.plot(accuracies, label='acc')
-        # plt.plot(results.history['val_accuracy_fn'], label='val_acc')
         ax2.set_title('Training Accuracy')
         plt.savefig(directory + args.name + '_plot.png')
 
