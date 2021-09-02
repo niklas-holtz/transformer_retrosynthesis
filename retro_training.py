@@ -60,6 +60,16 @@ def main():
 
     # Pretrained model
     if len(args.pre) > 0:
+        # Initialize the model by using an example
+        example = 'COCCNc1c(C)cccc1C >> COCCO.Cc1cccc(C)c1N'
+        line = example.split(' >> ')
+        line[0] = tk.tokenize(line[0])
+        line[1] = tk.tokenize(line[1])
+        line = tf.keras.preprocessing.sequence.pad_sequences(line, value=0, padding='post', dtype='int64', maxlen=199)
+        inp, tar = np.split(line, 2)
+        tar_inp = tar[:, :-1]
+        predictions, _ = transformer(inp, tar_inp, False)
+        # Load the weights
         transformer.load_weights(args.pre)
 
     # Use a DatasetGenerator in order to load all data from a given path and combine it in a single dataset object
