@@ -1,3 +1,5 @@
+import io
+
 import selfies as sf
 
 from . import SmilesTokenizer
@@ -30,6 +32,35 @@ class SelfiesTokenizer(SmilesTokenizer):
                          '[Branch2_3]', '[=S]', '[N-expl]', '[Ring2]', '[I+expl]', '[=N-expl]', '[S]', '[NH-expl]',
                          '[\\I]', '[Kexpl]',
                          '[S-expl]', '[/C@@Hexpl]', '[=S+expl]', '[Br-expl]', '[N@+expl]', '[$]']
+        self.char_to_ix = {s: i for i, s in enumerate(self.alphabet)}
+        self.ix_to_char = {i: s for i, s in enumerate(self.alphabet)}
+
+    def gen_alphabet(self, path, num_entries):
+        # Load the lines from the file and separate them
+        lines = io.open(path, encoding='UTF-8').read().strip().split('\n')
+        dataset = []
+        print("found " + str(len(lines)))
+        for l in lines[:num_entries]:
+            for w in l.split(' >> ')[0:2]:
+                selfies = sf.encoder(w)
+                print("appending ... " + selfies)
+                dataset.append(selfies)
+        # Append additional information to the alphabet
+        self.alphabet = sf.get_alphabet_from_selfies(dataset)
+        self.alphabet.add('[nop]')
+        self.alphabet.add('.')
+        self.alphabet.add('[$]')
+        self.alphabet.add('[^]')
+        return self.alphabet
+
+    def load_alphabet_from_file(self, path):
+        self.alphabet = []
+        with open(path, 'r') as reader:
+            line = reader.readline()
+            while line != '':
+                self.alphabet.append(line.rstrip())
+                line = reader.readline()
+
         self.char_to_ix = {s: i for i, s in enumerate(self.alphabet)}
         self.ix_to_char = {i: s for i, s in enumerate(self.alphabet)}
 

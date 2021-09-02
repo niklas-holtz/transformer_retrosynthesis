@@ -38,13 +38,18 @@ def main():
     parser.add_argument('--epochs', type=int, default=100, required=True, help='Number of epochs the model is to be '
                                                                                'trained.')
     # Load a pretrained model
-    parser.add_argument('--pre', type=str, default='')
-
-
+    parser.add_argument('--pre', type=str, default='', help='Defines a pre-trained model that is to be trained further.')
+    # Selfies
+    parser.add_argument('--selfies', type=bool, default=False, help='If tur, the model uses SELFIES instead of SMILES.')
+    parser.add_argument('--alphabet', type=str, default='')
     args = parser.parse_args()
 
     # Tokenizer
-    tk = trans.SmilesTokenizer()
+    if not args.selfies:
+        tk = trans.SmilesTokenizer()
+    else:
+        tk = trans.SelfiesTokenizer()
+        tk.load_alphabet_from_file(args.alphabet)
 
     # Create the model
     transformer = trans.Transformer(
@@ -75,7 +80,14 @@ def main():
     # Use a DatasetGenerator in order to load all data from a given path and combine it in a single dataset object
     generator = trans.DatasetGenerator(tk)
     count = None  # None means all
-    dataset = generator.gen_from_file(args.data_path, count, args.batch_size, 0)
+
+    # The padding value is used to fill up a vector when there is no atom at a specific position
+    if args.selfies:
+        padding_value = tk.char_to_ix['[nop]']
+    else:
+        padding_value = 0
+
+    dataset = generator.gen_from_file(args.data_path, count, args.batch_size, padding_value)
 
     # Schedule for the learning rate
     class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
