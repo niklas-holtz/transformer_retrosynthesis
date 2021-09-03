@@ -1,13 +1,13 @@
 import io
 import random
 
-import selfies as sf
 import rdkit.Chem as rkc
 from rdkit import Chem
 
 
 def to_mol(smiles):
     return rkc.MolFromSmiles(smiles)
+
 
 def randomize_smiles(mol, random_type="restricted"):
     if not mol:
@@ -70,6 +70,7 @@ def gen_random(prod, reactant, amount):
 
         file.write(prod2 + " >> " + reactant2 + "\n")
 
+
 with open("data/retrosynthesis-artificial_7.smi", 'w') as file:
     for i, pair in enumerate(word_pairs):
         prod = pair[0]
@@ -77,5 +78,3 @@ with open("data/retrosynthesis-artificial_7.smi", 'w') as file:
         file.write(prod + " >> " + reactant + "\n")
 
         gen_random(prod, reactant, 8)
-
-
