@@ -207,6 +207,7 @@ def main():
 
     # Save the model
     transformer.save(directory + args.name)
+    tf.keras.models.save_model(transformer, directory + args.name)
 
     if args.plot:
         # Show some results from training
