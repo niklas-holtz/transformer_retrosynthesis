@@ -40,8 +40,8 @@ def main():
     # Load a pretrained model
     parser.add_argument('--pre', type=str, default='', help='Defines a pre-trained model that is to be trained further.')
     # Selfies
-    parser.add_argument('--selfies', type=bool, default=False, help='If tur, the model uses SELFIES instead of SMILES.')
-    parser.add_argument('--alphabet', type=str, default='')
+    parser.add_argument('--selfies', type=bool, default=False, help='If true, the model uses SELFIES instead of SMILES.')
+    parser.add_argument('--alphabet', type=str, default='The alphabet that is used to train the model.')
     args = parser.parse_args()
 
     # Tokenizer
@@ -70,7 +70,7 @@ def main():
         line = example.split(' >> ')
         line[0] = tk.tokenize(line[0])
         line[1] = tk.tokenize(line[1])
-        line = tf.keras.preprocessing.sequence.pad_sequences(line, value=0, padding='post', dtype='int64', maxlen=199)
+        line = tf.keras.preprocessing.sequence.pad_sequences(line, value=0, padding='post', dtype='int64')
         inp, tar = np.split(line, 2)
         tar_inp = tar[:, :-1]
         predictions, _ = transformer(inp, tar_inp, False)
@@ -204,7 +204,7 @@ def main():
         directory += '/'
 
     # Save the model
-    transformer.save_weights(directory + args.name + ".h5", save_format="h5")
+    transformer.save(directory + args.name)
 
     if args.plot:
         # Show some results from training
