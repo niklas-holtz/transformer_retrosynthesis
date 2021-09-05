@@ -206,7 +206,7 @@ def main():
         directory += '/'
 
     # Save the model
-    transformer.save(directory + args.name)
+    #transformer.save(directory + args.name)
     tf.keras.models.save_model(transformer, directory + args.name)
 
     if args.plot:
