@@ -168,6 +168,8 @@ def main():
     train_loss = tf.keras.metrics.Mean(name='train_loss')
     train_accuracy = tf.keras.metrics.Mean(name='train_accuracy')
 
+    transformer.compile(optimizer=optimizer, loss=loss_function, metrics=['accuracy', accuracy_function])
+
     # The main training method that uses the train_step method for each batch
     def main_train(dataset, n_epochs=args.epochs, print_every=50):
         losses = []
