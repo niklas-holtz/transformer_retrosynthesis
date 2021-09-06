@@ -65,17 +65,8 @@ def main():
 
     # Pretrained model
     if len(args.pre) > 0:
-        # Initialize the model by using an example
-        example = 'COCCNc1c(C)cccc1C >> COCCO.Cc1cccc(C)c1N'
-        line = example.split(' >> ')
-        line[0] = tk.tokenize(line[0])
-        line[1] = tk.tokenize(line[1])
-        line = tf.keras.preprocessing.sequence.pad_sequences(line, value=0, padding='post', dtype='int64')
-        inp, tar = np.split(line, 2)
-        tar_inp = tar[:, :-1]
-        predictions, _ = transformer(inp, tar_inp, False)
-        # Load the weights
-        transformer.load_weights(args.pre)
+        # Load the pretrained model
+        transformer.load_model(args.pre)
 
     # Use a DatasetGenerator in order to load all data from a given path and combine it in a single dataset object
     generator = trans.DatasetGenerator(tk)
@@ -168,8 +159,6 @@ def main():
     train_loss = tf.keras.metrics.Mean(name='train_loss')
     train_accuracy = tf.keras.metrics.Mean(name='train_accuracy')
 
-   # transformer.compile(optimizer=optimizer, loss=loss_function, metrics=['accuracy', accuracy_function])
-
     # The main training method that uses the train_step method for each batch
     def main_train(dataset, n_epochs=args.epochs, print_every=50):
         losses = []
@@ -208,18 +197,6 @@ def main():
     # Save the model using the tf format
     transformer.save(directory + args.name, save_format="tf")
 
-    # Create the translator
-   # translator = trans.GreedyTranslator(transformer, tk)
-   # translator = trans.ExportTranslator(translator)
-
-  #  translator('COCCNc1c(C)cccc1C').numpy()
-
-  #  tf.saved_model.save(transformer, export_dir=directory + args.name)
-    #tf.keras.models.save_model(transformer, directory + args.name)
-
- #   reloaded = tf.saved_model.load(directory + args.name)
-   # reloaded('COCCNc1c(C)cccc1C')
-
     if args.plot:
         # Show some results from training
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
@@ -230,10 +207,10 @@ def main():
         # accuracies
         ax2.plot(accuracies, label='acc')
         ax2.set_title('Training Accuracy')
-        plt.savefig(directory + args.name + '_plot.png')
+        plt.savefig(directory + args.name + '/' + directory + args.name + '_plot.png')
     if args.csv:
         # save plot data as csv
-        with open(directory + args.name + '_plot_data.csv', 'w', newline='') as csvfile:
+        with open(directory + args.name + '/' + directory + args.name + '_plot_data.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(['Losses', 'Accuracies'])
             for loss, acc in zip(losses, accuracies):

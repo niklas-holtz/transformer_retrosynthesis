@@ -12,7 +12,7 @@ class BeamSearchTranslator:
     def __init__(self, model: Transformer):
         self.model = model
 
-    def predict(self, sequence, tk, max_length=160, beam_size=5, minimum_predictions=5, validity_check=True, max_false_predictions=10, print_console=True):
+    def predict(self, sequence, tk, max_length=260, beam_size=5, minimum_predictions=5, validity_check=True, max_false_predictions=10, print_console=True):
         """
         :param max_false_predictions:
         :param validity_check:
@@ -92,9 +92,6 @@ class BeamSearchTranslator:
         # Sort again after normalization
         fin_nodes.sort(key=lambda x: x.score, reverse=True)
 
-        # print('> Normlization ... ')
-        # print_token_predictions(fin_nodes, tk)
-
         if len(fin_nodes) < 1:
             return "", [], []
 
@@ -158,12 +155,12 @@ class Beam:
 
             # Calculate their scores
             best_predictions = calc_scores(
-                best_predictions)  # [(23, -0.3760484563819582), (24, -0.6550012336733987)]
+                best_predictions)
             for _, prediction in enumerate(best_predictions):
                 # Concatenate the output with the new one
                 output = get_output_tensor(prediction[0])
                 output = tf.concat([token.current_output, output],
-                                   axis=-1)  # tf.Tensor([[ 1 23]], shape=(1, 2), dtype=int64)
+                                   axis=-1)
                 # Add the score of this prediction to the existing one
                 score = prediction[1] + token.score
                 # Create new token for this output
@@ -171,7 +168,6 @@ class Beam:
 
         # Sort the nodes according to their score and pick the best
         self.nodes = sorted(new_nodes, key=lambda x: x.score, reverse=True)[:self.beam_size]
-        # print_token_predictions(self.nodes, self.tk)
 
 
 class SequenceNode:
