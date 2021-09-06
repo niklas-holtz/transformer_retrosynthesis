@@ -168,7 +168,7 @@ def main():
     train_loss = tf.keras.metrics.Mean(name='train_loss')
     train_accuracy = tf.keras.metrics.Mean(name='train_accuracy')
 
-    transformer.compile(optimizer=optimizer, loss=loss_function, metrics=['accuracy', accuracy_function])
+   # transformer.compile(optimizer=optimizer, loss=loss_function, metrics=['accuracy', accuracy_function])
 
     # The main training method that uses the train_step method for each batch
     def main_train(dataset, n_epochs=args.epochs, print_every=50):
@@ -205,9 +205,20 @@ def main():
     if len(directory) > 0 and not directory.endswith('/'):
         directory += '/'
 
-    # Save the model
-    #transformer.save(directory + args.name)
-    tf.keras.models.save_model(transformer, directory + args.name)
+    # Save the model using the tf format
+    transformer.save(directory + args.name, save_format="tf")
+
+    # Create the translator
+   # translator = trans.GreedyTranslator(transformer, tk)
+   # translator = trans.ExportTranslator(translator)
+
+  #  translator('COCCNc1c(C)cccc1C').numpy()
+
+  #  tf.saved_model.save(transformer, export_dir=directory + args.name)
+    #tf.keras.models.save_model(transformer, directory + args.name)
+
+ #   reloaded = tf.saved_model.load(directory + args.name)
+   # reloaded('COCCNc1c(C)cccc1C')
 
     if args.plot:
         # Show some results from training
