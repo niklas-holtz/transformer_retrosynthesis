@@ -15,6 +15,9 @@ import model as trans
 from role_asignment import identifyReactants
 from rdkit.Chem import RDConfig, AllChem
 
+# The maximum length of a product or reactants smiles string (in order to filter out disproportionately long strings)
+MAX_LENGTH = 256
+
 # Initialize a Tokenizer in order to only keep reactions that can be tokenized
 tk = trans.SmilesTokenizer()
 
@@ -79,7 +82,7 @@ def collect_smiles_by_tag(collection, tag, child):
 
 
 # Open the new dataset file and write each reaction into it
-with open("data/full_dataset_adapted.smi", 'w') as dest_file:
+with open("data/full-dataset-adapted.smi", 'w') as dest_file:
     skipped_files = 0
     reactions = []
     for i, file in enumerate(files):
@@ -107,6 +110,10 @@ with open("data/full_dataset_adapted.smi", 'w') as dest_file:
                 # Form a retrosynthesis string by exchanging the part before the arrow (>>) with the part after it
                 tmp = synthesis_final.split(' >> ')
                 retro_final = tmp[1] + ' >> ' + tmp[0]
+
+                # Eventually check the length of the products and reactants
+                if len(tmp[1]) > MAX_LENGTH or len(tmp[2]) > MAX_LENGTH:
+                    continue
 
                 print('Retro: ' + retro_final)
                 reactions.append(retro_final)

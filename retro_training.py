@@ -212,7 +212,6 @@ def main():
         # save plot data as csv
         with open(directory + args.name + '/' + directory + args.name + '_plot_data.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerow(['Losses', 'Accuracies'])
             for loss, acc in zip(losses, accuracies):
                 writer.writerow([loss.numpy(), acc.numpy()])
 

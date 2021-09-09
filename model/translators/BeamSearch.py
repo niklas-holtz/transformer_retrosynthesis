@@ -97,16 +97,17 @@ class BeamSearchTranslator:
 
         # Output the best one
         best_token_seq = fin_nodes[0].current_output.numpy()[0]
-        text = tk.detokenize(best_token_seq)
-        # text = best_token_seq
+        token_decoded = tk.detokenize(best_token_seq)
+
+        # Output the scores
+        all_token_scores = [node.score for node in fin_nodes]
 
         # Output the rest
-        all_token_seq = [tk.detokenize(token.current_output.numpy()[0]) for token in fin_nodes]
-        # all_token_seq = [token.current_output.numpy()[0] for token in fin_nodes]
+        all_token_seq_decoded = [tk.detokenize(node.current_output.numpy()[0]) for node in fin_nodes]
 
         if print_console:
             print('> Prediction finished ... ')
-        return text, best_token_seq, all_token_seq
+        return token_decoded, all_token_scores, all_token_seq_decoded
 
 
 def print_token_predictions(nodes, tk):
@@ -142,7 +143,7 @@ class Beam:
     def next(self):
         new_nodes = []
         for i, token in enumerate(self.nodes):
-            predictions, _ = self.model(self.inp_sequence, token.current_output, False)
+            predictions, weights = self.model(self.inp_sequence, token.current_output, False)
             # Select all tokens from the seq_len dimension
             predictions = predictions[:, -1:, :]
 

@@ -1,80 +1,55 @@
+"""
+This script is used to generate randomized smiles for a given retrsonythesis dataset. It is strongly inspired by
+the publication "Randomized SMILES strings improve the quality of molecular generative models" and and it basically
+shuffles the atomic order of each molecule to create alternative SMILES representations.
+
+A related script used for the publication can be found in the following repository:
+https://github.com/undeadpixel/reinvent-randomized/blob/master/create_randomized_smiles.py
+"""
 import io
 import random
 
 import rdkit.Chem as rkc
-from rdkit import Chem
 
 
+# Creates the mol structure from a smiles string
 def to_mol(smiles):
     return rkc.MolFromSmiles(smiles)
 
 
-def randomize_smiles(mol, random_type="restricted"):
+# Creates a randomized smiles string for a given mol structure by shuffling the atom order
+def randomize_smiles(mol):
     if not mol:
         return None
 
-    if random_type == "unrestricted":
-        return rkc.MolToSmiles(mol, canonical=False, doRandom=True, isomericSmiles=False)
-    if random_type == "restricted":
-        new_atom_order = list(range(mol.GetNumAtoms()))
-        random.shuffle(new_atom_order)
-        random_mol = rkc.RenumberAtoms(mol, newOrder=new_atom_order)
-        return rkc.MolToSmiles(random_mol, canonical=False, isomericSmiles=False)
-    raise ValueError("Type '{}' is not valid".format(random_type))
+    new_atom_order = list(range(mol.GetNumAtoms()))
+    random.shuffle(new_atom_order)
+    random_mol = rkc.RenumberAtoms(mol, newOrder=new_atom_order)
+    return rkc.MolToSmiles(random_mol, canonical=False, isomericSmiles=False)
 
-
-num_entries = None
-path = "data/retrosynthesis-all.smi"
 
 # Load the lines from the file and separate them
+num_entries = None
+path = "data/retrosynthesis-all.smi"
 lines = io.open(path, encoding='UTF-8').read().strip().split('\n')
 print('Creating dataset for ' + str(num_entries) + ' out of ' + str(len(lines)) + ' found entries of the document.')
 # Split the entries
 word_pairs = [[w for w in l.split(' >> ')[0:2]] for l in lines[:num_entries]]
 
 
+# Generates a desired amount of random smiles strings for products and reactants
 def gen_random(prod, reactant, amount):
     for i in range(amount):
-        # Alternative form using selfies decode
-        prod2 = randomize_smiles(to_mol(prod))
-
-        attempts = 0
-        fail = False
-        while Chem.CanonSmiles(prod) != Chem.CanonSmiles(prod2):
-            random.seed()
-            prod2 = randomize_smiles(to_mol(prod))
-            attempts += 1
-            if attempts > 10:
-                fail = True
-                break
-
-        if fail:
-            print("fail!")
-            continue
-
-        reactant2 = randomize_smiles(to_mol(reactant))
-
-        attempts = 0
-        fail = False
-        while Chem.CanonSmiles(reactant) != Chem.CanonSmiles(reactant2):
-            random.seed()
-            reactant2 = randomize_smiles(to_mol(reactant))
-            attempts += 1
-            if attempts > 10:
-                fail = True
-                break
-
-        if fail:
-            print("fail!")
-            continue
-
-        file.write(prod2 + " >> " + reactant2 + "\n")
+        random.seed()
+        new_prod = randomize_smiles(to_mol(prod))
+        new_reactant = randomize_smiles(to_mol(reactant))
+        file.write(new_prod + " >> " + new_reactant + "\n")
 
 
-with open("data/retrosynthesis-artificial_7.smi", 'w') as file:
+# Open the new file and write all randomized smiles into it
+with open("data/retrosynthesis-artificial.smi", 'w') as file:
     for i, pair in enumerate(word_pairs):
         prod = pair[0]
         reactant = pair[1]
         file.write(prod + " >> " + reactant + "\n")
-
-        gen_random(prod, reactant, 8)
+        gen_random(prod, reactant, 4)
