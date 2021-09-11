@@ -207,10 +207,10 @@ def main():
         # accuracies
         ax2.plot(accuracies, label='acc')
         ax2.set_title('Training Accuracy')
-        plt.savefig(directory + args.name + '/' + directory + args.name + '_plot.png')
+        plt.savefig(directory + args.name + '/' + args.name + '_plot.png')
     if args.csv:
         # save plot data as csv
-        with open(directory + args.name + '/' + directory + args.name + '_plot_data.csv', 'w', newline='') as csvfile:
+        with open(directory + args.name + '/' + args.name + '_plot_data.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
             for loss, acc in zip(losses, accuracies):
                 writer.writerow([loss.numpy(), acc.numpy()])
