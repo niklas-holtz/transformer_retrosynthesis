@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reactionList xmlns="http://www.xml-cml.org/schema" xmlns:cmlDict="http://www.xml-cml.org/dictionary/cml/" xmlns:nameDict="http://www.xml-cml.org/dictionary/cml/name/" xmlns:unit="http://www.xml-cml.org/unit/" xmlns:cml="http://www.xml-cml.org/schema" xmlns:dl="http://bitbucket.org/dan2097">
+  <reaction>
+    <dl:source>
+      <dl:documentId>US05895522</dl:documentId>
+      <dl:paragraphText>An eight inch pelletizer was charged with 300 g of a carbon black with a CTAB surface are of 350 m2 /g and a DBPA of 120 mL/100 g and 66.1 g of sulfanilic acid. The pelletizer was run at 100 rpm for one minute. A solution at 65° C. of deionized water (228.5 g) and NaNO2 (26.9 g) was added and the pelletizer was run for one minute at 600 rpm. An additional five grams of water was added, and the pelletizer was run for a further minute at 600 rpm. 4-Sulfobenzenediazonium hydroxide inner salt was formed in situ, and it reacted with the carbon black. A sample of the product was dried, extracted overnight with methanol in a Soxhlet extractor, dried and analyzed for sulfur. The product had 2.96 μmol/m2 of attached p-C6H4SO3-Na+ groups.</dl:paragraphText>
+    </dl:source>
+    <dl:reactionSmiles>C.C1C(Br)=C(Br)[NH:4]C=1C(O)=[O:10].[S:12]([OH:22])(=[O:21])([C:14]1[CH:19]=[CH:18][C:17]([NH2:20])=[CH:16][CH:15]=1)=[O:13].N([O-])=O.[Na+]&gt;O&gt;[OH-:10].[S:12]([C:14]1[CH:15]=[CH:16][C:17]([N+:20]#[N:4])=[CH:18][CH:19]=1)([OH:22])(=[O:21])=[O:13] |f:3.4,6.7|</dl:reactionSmiles>
+    <productList>
+      <product role="product">
+        <molecule id="m0">
+          <name dictRef="nameDict:unknown">4-Sulfobenzenediazonium hydroxide</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="[OH-].S(=O)(=O)(O)C1=CC=C(C=C1)[N+]#N"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/C6H4N2O3S.H2O/c7-8-5-1-3-6(4-2-5)12(9,10)11;/h1-4H;1H2"/>
+        <dl:entityType>exact</dl:entityType>
+      </product>
+    </productList>
+    <reactantList>
+      <reactant role="reactant">
+        <molecule id="m1">
+          <name dictRef="nameDict:unknown">carbon black</name>
+        </molecule>
+        <amount dl:propertyType="MASS" dl:normalizedValue="300">300 g</amount>
+        <identifier dictRef="cml:smiles" value="C"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/CH4/h1H4"/>
+        <dl:entityType>chemicalClass</dl:entityType>
+      </reactant>
+      <reactant role="reactant" count="1">
+        <molecule id="m2">
+          <name dictRef="nameDict:unknown">DBPA</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="C1=C(NC(=C1Br)Br)C(=O)O"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/C5H3Br2NO2/c6-2-1-3(5(9)10)8-4(2)7/h1,8H,(H,9,10)"/>
+        <dl:entityType>chemicalClass</dl:entityType>
+      </reactant>
+      <reactant role="reactant" count="1">
+        <molecule id="m3">
+          <name dictRef="nameDict:unknown">sulfanilic acid</name>
+        </molecule>
+        <amount dl:propertyType="MASS" dl:normalizedValue="66.1">66.1 g</amount>
+        <identifier dictRef="cml:smiles" value="S(=O)(C1=CC=C(C=C1)N)(=O)O"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/C6H7NO3S/c7-5-1-3-6(4-2-5)11(8,9)10/h1-4H,7H2,(H,8,9,10)"/>
+        <dl:entityType>exact</dl:entityType>
+      </reactant>
+      <reactant role="reactant">
+        <molecule id="m4">
+          <name dictRef="nameDict:unknown">NaNO2</name>
+        </molecule>
+        <amount dl:propertyType="MASS" dl:normalizedValue="26.9">26.9 g</amount>
+        <identifier dictRef="cml:smiles" value="N(=O)[O-].[Na+]"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/HNO2.Na/c2-1-3;/h(H,2,3);/q;+1/p-1"/>
+        <dl:entityType>exact</dl:entityType>
+      </reactant>
+    </reactantList>
+    <spectatorList>
+      <spectator role="solvent">
+        <molecule id="m5">
+          <name dictRef="nameDict:unknown">water</name>
+        </molecule>
+        <amount dl:propertyType="MASS" dl:normalizedValue="5">five grams</amount>
+        <identifier dictRef="cml:smiles" value="O"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/H2O/h1H2"/>
+        <dl:entityType>exact</dl:entityType>
+      </spectator>
+      <spectator role="solvent">
+        <molecule id="m6">
+          <name dictRef="nameDict:unknown">water</name>
+        </molecule>
+        <amount dl:propertyType="MASS" dl:normalizedValue="228.5">228.5 g</amount>
+        <identifier dictRef="cml:smiles" value="O"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/H2O/h1H2"/>
+        <dl:entityType>exact</dl:entityType>
+      </spectator>
+    </spectatorList>
+    <dl:reactionActionList>
+      <dl:reactionAction action="Add">
+        <dl:phraseText>An eight inch pelletizer was charged with 300 g of a carbon black with a CTAB surface</dl:phraseText>
+        <dl:chemical ref="m1"/>
+        <chemical>
+          <molecule id="m7">
+            <name dictRef="nameDict:unknown">CTAB</name>
+          </molecule>
+          <identifier dictRef="cml:smiles" value="CCCCCCCCCCCCCCCC[N+](C)(C)C.[Br-]"/>
+          <identifier dictRef="cml:inchi" value="InChI=1S/C19H42N.BrH/c1-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20(2,3)4;/h5-19H2,1-4H3;1H/q+1;/p-1"/>
+          <dl:entityType>falsePositive</dl:entityType>
+        </chemical>
+      </dl:reactionAction>
+      <dl:reactionAction action="Wait">
+        <dl:phraseText>The pelletizer was run at 100 rpm for one minute</dl:phraseText>
+        <dl:parameter propertyType="Time" normalizedValue="60">one minute</dl:parameter>
+      </dl:reactionAction>
+      <dl:reactionAction action="Add">
+        <dl:phraseText>A solution at 65° C. of deionized water (228.5 g) and NaNO2 (26.9 g) was added</dl:phraseText>
+        <dl:chemical ref="m6"/>
+        <dl:chemical ref="m4"/>
+        <dl:parameter propertyType="Temperature" normalizedValue="65">65° C.</dl:parameter>
+      </dl:reactionAction>
+      <dl:reactionAction action="Wait">
+        <dl:phraseText>the pelletizer was run for one minute at 600 rpm</dl:phraseText>
+        <dl:parameter propertyType="Time" normalizedValue="60">one minute</dl:parameter>
+      </dl:reactionAction>
+      <dl:reactionAction action="Add">
+        <dl:phraseText>An additional five grams of water was added</dl:phraseText>
+        <dl:chemical ref="m5"/>
+      </dl:reactionAction>
+      <dl:reactionAction action="Yield">
+        <dl:phraseText>4-Sulfobenzenediazonium hydroxide inner salt was formed in situ, and it</dl:phraseText>
+        <dl:chemical ref="m0"/>
+      </dl:reactionAction>
+    </dl:reactionActionList>
+  </reaction>
+  <reaction>
+    <dl:source>
+      <dl:documentId>US05895635</dl:documentId>
+      <dl:paragraphText>It is the primary object of the present invention to provide the process for the recovery or regeneration of ammonia contained in the effluent from a reactor zone where an ammonia, oxygen and propane/isobutane are reacted to produce acrylonitrile/methacrylonitrile.</dl:paragraphText>
+    </dl:source>
+    <dl:reactionSmiles>[NH3:1].O=O.[CH3:4][CH2:5][CH3:6].[CH3:7][CH:8]([CH3:10])[CH3:9]&gt;&gt;[C:4](#[N:1])[CH:5]=[CH2:6].[C:7](#[N:1])[C:8]([CH3:10])=[CH2:9] |f:2.3,4.5|</dl:reactionSmiles>
+    <productList>
+      <product role="product">
+        <molecule id="m0">
+          <name dictRef="nameDict:unknown">acrylonitrile methacrylonitrile</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="C(C=C)#N.C(C(=C)C)#N"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/C4H5N.C3H3N/c1-4(2)3-5;1-2-3-4/h1H2,2H3;2H,1H2"/>
+        <dl:entityType>exact</dl:entityType>
+      </product>
+    </productList>
+    <reactantList>
+      <reactant role="reactant" count="2">
+        <molecule id="m1">
+          <name dictRef="nameDict:unknown">ammonia</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="N"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/H3N/h1H3"/>
+        <dl:entityType>chemicalClass</dl:entityType>
+      </reactant>
+      <reactant role="reactant">
+        <molecule id="m2">
+          <name dictRef="nameDict:unknown">oxygen</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="O=O"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/O2/c1-2"/>
+        <dl:entityType>exact</dl:entityType>
+      </reactant>
+      <reactant role="reactant" count="1">
+        <molecule id="m3">
+          <name dictRef="nameDict:unknown">propane isobutane</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="CCC.CC(C)C"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/C4H10.C3H8/c1-4(2)3;1-3-2/h4H,1-3H3;3H2,1-2H3"/>
+        <dl:entityType>exact</dl:entityType>
+      </reactant>
+    </reactantList>
+    <spectatorList/>
+    <dl:reactionActionList>
+      <dl:reactionAction action="ApparatusAction">
+        <dl:phraseText>contained in the effluent from a reactor</dl:phraseText>
+      </dl:reactionAction>
+      <dl:reactionAction action="Synthesize">
+        <dl:phraseText>zone where an ammonia, oxygen and propane/isobutane are reacted</dl:phraseText>
+        <dl:chemical ref="m1"/>
+        <dl:chemical ref="m2"/>
+        <dl:chemical ref="m3"/>
+      </dl:reactionAction>
+      <dl:reactionAction action="Yield">
+        <dl:phraseText>to produce acrylonitrile/methacrylonitrile</dl:phraseText>
+        <dl:chemical ref="m0"/>
+      </dl:reactionAction>
+    </dl:reactionActionList>
+  </reaction>
+  <reaction>
+    <dl:source>
+      <dl:documentId>US05895787</dl:documentId>
+      <dl:paragraphText>Relatively pure 1H-indole-3-methanol (I3C™ from Designed Nutritional Products, Orem, UT, US) in a water solution was prepared for HPLC analysis. One sample was diluted with water and the other was diluted with methanol. By the time the partial methanol solution could be injected into the HPLC, the reaction with methanol had taken place to form 1H-indol-3-yl methoxy methane, the methyl ether of 1H-indole-3-methanol, and two peaks of about the same magnitude were observed. The same solution when diluted with water showed only one peak.</dl:paragraphText>
+    </dl:source>
+    <dl:reactionSmiles>[NH:1]1[C:9]2[C:4](=[CH:5][CH:6]=[CH:7][CH:8]=2)[C:3]([CH2:10][OH:11])=[CH:2]1.[CH3:12]O&gt;O&gt;[NH:1]1[C:9]2[C:4](=[CH:5][CH:6]=[CH:7][CH:8]=2)[C:3]([CH2:10][O:11][CH3:12])=[CH:2]1</dl:reactionSmiles>
+    <productList>
+      <product role="product">
+        <molecule id="m0">
+          <name dictRef="nameDict:unknown">1H-indol-3-yl methoxy methane</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="N1C=C(C2=CC=CC=C12)COC"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/C10H11NO/c1-12-7-8-6-11-10-5-3-2-4-9(8)10/h2-6,11H,7H2,1H3"/>
+        <dl:entityType>exact</dl:entityType>
+      </product>
+    </productList>
+    <reactantList>
+      <reactant role="reactant" count="1">
+        <molecule id="m1">
+          <name dictRef="nameDict:unknown">1H-indole-3-methanol</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="N1C=C(C2=CC=CC=C12)CO"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/C9H9NO/c11-6-7-5-10-9-4-2-1-3-8(7)9/h1-5,10-11H,6H2"/>
+        <dl:entityType>exact</dl:entityType>
+      </reactant>
+      <reactant role="reactant" count="1">
+        <molecule id="m2">
+          <name dictRef="nameDict:unknown">methanol</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="CO"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/CH4O/c1-2/h2H,1H3"/>
+        <dl:entityType>exact</dl:entityType>
+      </reactant>
+      <reactant role="reactant">
+        <molecule id="m3">
+          <name dictRef="nameDict:unknown">methanol</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="CO"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/CH4O/c1-2/h2H,1H3"/>
+        <dl:entityType>exact</dl:entityType>
+      </reactant>
+      <reactant role="reactant">
+        <molecule id="m4">
+          <name dictRef="nameDict:unknown">methanol</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="CO"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/CH4O/c1-2/h2H,1H3"/>
+        <dl:entityType>definiteReference</dl:entityType>
+      </reactant>
+    </reactantList>
+    <spectatorList>
+      <spectator role="solvent">
+        <molecule id="m5">
+          <name dictRef="nameDict:unknown">water</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="O"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/H2O/h1H2"/>
+        <dl:entityType>exact</dl:entityType>
+      </spectator>
+      <spectator role="solvent">
+        <molecule id="m6">
+          <name dictRef="nameDict:unknown">water</name>
+        </molecule>
+        <identifier dictRef="cml:smiles" value="O"/>
+        <identifier dictRef="cml:inchi" value="InChI=1S/H2O/h1H2"/>
+        <dl:entityType>chemicalClass</dl:entityType>
+      </spectator>
+    </spectatorList>
+    <dl:reactionActionList>
+      <dl:reactionAction action="Synthesize">
+        <dl:phraseText>Relatively pure 1H-indole-3-methanol (I3C™ from Designed Nutritional Products, Orem, UT, US) in a water solution was prepared for HPLC analysis</dl:phraseText>
+        <dl:chemical ref="m1"/>
+        <dl:chemical ref="m6"/>
+      </dl:reactionAction>
+      <dl:reactionAction action="Add">
+        <dl:phraseText>One sample was diluted with water</dl:phraseText>
+        <dl:chemical ref="m5"/>
+      </dl:reactionAction>
+      <dl:reactionAction action="Add">
+        <dl:phraseText>the other was diluted with methanol</dl:phraseText>
+        <dl:chemical ref="m2"/>
+      </dl:reactionAction>
+      <dl:reactionAction action="Synthesize">
+        <dl:phraseText>the reaction with methanol</dl:phraseText>
+        <dl:chemical ref="m3"/>
+      </dl:reactionAction>
+      <dl:reactionAction action="Yield">
+        <dl:phraseText>to form 1H-indol-3-yl methoxy methane</dl:phraseText>
+        <dl:chemical ref="m0"/>
+      </dl:reactionAction>
+    </dl:reactionActionList>
+  </reaction></reactionList>
