@@ -4,7 +4,6 @@ import time
 
 import model as trans
 from rdkit import Chem
-from keras.models import load_model
 
 
 def predict_reactants(smiles, translator, tk, expected="unknown"):
@@ -65,14 +64,15 @@ def main():
                         help='The path of the model that is used for the prediction.')
     # For evaluating and predicting multiple lines and calculating the top-k accuracies
     parser.add_argument('--test_data', type=str, default='', help='The path to a test data set, e.g. '
-                                                                     'path/to/data.smi')
+                                                                  'path/to/data.smi')
     parser.add_argument('--max_lines', type=int, default=6000, help='Defines a maximum amount of lines that should be '
                                                                     'evaluated.')
     # For predicting just a single line
     parser.add_argument('--smiles', type=str, default='', help='If the parameter "eval" is false, a single '
                                                                'translation is output for this smiles string.')
     # Selfies
-    parser.add_argument('--selfies', type=bool, default=False, help='If true, the model uses SELFIES instead of SMILES.')
+    parser.add_argument('--selfies', type=bool, default=False,
+                        help='If true, the model uses SELFIES instead of SMILES.')
     parser.add_argument('--alphabet', type=str, default='The alphabet that was used to train the model.')
     args = parser.parse_args()
 
@@ -83,8 +83,24 @@ def main():
         tk = trans.SelfiesTokenizer()
         tk.load_alphabet_from_file(args.alphabet)
 
+    # Create the model
+    transformer = trans.Transformer(
+        num_layers=4,
+        d_model=128,
+        num_heads=8,
+        dff=512,
+        input_vocab_size=tk.get_vocab_size(),
+        target_vocab_size=tk.get_vocab_size(),
+        pe_input=1000,
+        pe_target=1000,
+        rate=0.1)
+
     # Load saved trained_models
-    transformer = load_model(args.model)
+    # Unfortunately I had issues with the RAM usage when load a saved model.
+    # Take a look at the following post by me at stackoverflow to learn more:
+    # https://stackoverflow.com/questions/69160914/why-does-load-model-cause-ram-memory-problems-while-predicting
+    # transformer = load_model(args.model, compile=False)
+    transformer.load_weights(args.model + "/variables/variables")
 
     # Create the translator
     translator = trans.BeamSearchTranslator(transformer)
@@ -108,7 +124,8 @@ def main():
                 # Predict and calculate the correct translations
                 start = time.time()
                 line = line.split(' >> ')
-                translated, _, all_tokens = predict_reactants(smiles=line[0], expected=line[1], translator=translator, tk=tk)
+                translated, _, all_tokens = predict_reactants(smiles=line[0], expected=line[1], translator=translator,
+                                                              tk=tk)
                 print(f'Time taken for 1 prediction: {time.time() - start:.2f} secs')
                 calc_accuracies(all_tokens, ground_truth=line[1], cor_trans=cor_trans)
                 print('> Current correct translations: ', cor_trans)

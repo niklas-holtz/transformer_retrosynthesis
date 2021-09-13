@@ -143,7 +143,7 @@ class Beam:
     def next(self):
         new_nodes = []
         for i, token in enumerate(self.nodes):
-            predictions, weights = self.model(self.inp_sequence, token.current_output, False)
+            predictions, _ = self.model(self.inp_sequence, token.current_output, training=False)
             # Select all tokens from the seq_len dimension
             predictions = predictions[:, -1:, :]
 
