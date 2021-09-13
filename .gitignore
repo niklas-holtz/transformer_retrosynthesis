@@ -1,3 +1,4 @@
 data/full-dataset-adapted.smi
 trained_models/deprecated/*
 test.py
+text_mining
