@@ -1,3 +1,3 @@
 data/full-dataset-adapted.smi
-trained_models/deprecated/
+trained_models/deprecated/*
 test.py
