@@ -115,6 +115,7 @@ def main():
         with io.open(args.test_data) as data:
             lines = data.read().strip().split('\n')
             # Iterate over each line and try to predicit
+            print('Starting evaluation for model: ' + args.model)
             for i, line in enumerate(lines):
                 print('\n> Iteration: ' + str(i + 1))
                 # Stop if a max_lines argument is set
