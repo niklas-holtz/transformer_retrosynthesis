@@ -5,12 +5,12 @@ The alphabet is then saved in the folder "alphabet".
 
 import model as trans
 
-path = 'data/retrosynthesis-artificial.smi'
+path = 'data/retrosynthesis-combined.smi'
 
 tk = trans.SelfiesTokenizer()
 alphabet = tk.gen_alphabet(path, None)
 
-with open('alphabets/retrosynthesis-artificial-alphabet.txt', 'w') as writer:
+with open('alphabets/retrosynthesis-combined-alphabet.txt', 'w') as writer:
     for selfies in alphabet:
         writer.write(selfies + '\n')
 
