@@ -46,11 +46,12 @@ class SelfiesTokenizer(SmilesTokenizer):
                 print("appending ... " + selfies)
                 dataset.append(selfies)
         # Append additional information to the alphabet
-        self.alphabet = sf.get_alphabet_from_selfies(dataset)
-        self.alphabet.add('[nop]')
-        self.alphabet.add('.')
-        self.alphabet.add('[$]')
-        self.alphabet.add('[^]')
+        self.alphabet = []
+        self.alphabet.append('[nop]')
+        self.alphabet.append('[^]')
+        self.alphabet.append('.')
+        self.alphabet += sf.get_alphabet_from_selfies(dataset)
+        self.alphabet.append('[$]')
         return self.alphabet
 
     def load_alphabet_from_file(self, path):

@@ -146,7 +146,6 @@ class Beam:
             predictions, _ = self.model(self.inp_sequence, token.current_output, training=False)
             # Select all tokens from the seq_len dimension
             predictions = predictions[:, -1:, :]
-
             # Apply softmax
             softmax = tf.keras.layers.Softmax()
             predictions = softmax(predictions)
