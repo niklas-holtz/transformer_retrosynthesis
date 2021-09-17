@@ -77,12 +77,13 @@ def collect_smiles_by_tag(collection, tag, child):
         if 'identifier' in elem.tag and elem.attrib['dictRef'] == 'cml:smiles':
             elem_smiles = elem.attrib['value']
             # Check if its a valid smiles string and its tokenizable
-            if Chem.CanonSmiles(elem_smiles) and tk.tokenize(elem_smiles).any():
-                collection.append(elem_smiles)
+            canon = Chem.CanonSmiles(elem_smiles)
+            if canon and tk.tokenize(elem_smiles).any():
+                collection.append(canon)
 
 
 # Open the new dataset file and write each reaction into it
-with open("data/full-dataset-adapted.smi", 'w') as dest_file:
+with open("data/full-dataset-adapted-canon.smi", 'w') as dest_file:
     skipped_files = 0
     reactions = []
     for i, file in enumerate(files):
@@ -103,7 +104,6 @@ with open("data/full-dataset-adapted.smi", 'w') as dest_file:
 
                 # Combine all products, reactants and reagents of the reaction to a single line of SMILES-Code
                 synthesis_final = '.'.join(s_reactants) + '.'.join(s_reagents) + ' >> ' + '.'.join(s_products)
-
                 # Reaction Role Assignment
                 synthesis_final = assign_roles(synthesis_final)
 
@@ -112,7 +112,7 @@ with open("data/full-dataset-adapted.smi", 'w') as dest_file:
                 retro_final = tmp[1] + ' >> ' + tmp[0]
 
                 # Eventually check the length of the products and reactants
-                if len(tmp[1]) > MAX_LENGTH or len(tmp[2]) > MAX_LENGTH:
+                if len(tmp[0]) > MAX_LENGTH or len(tmp[1]) > MAX_LENGTH:
                     continue
 
                 print('Retro: ' + retro_final)
@@ -124,6 +124,7 @@ with open("data/full-dataset-adapted.smi", 'w') as dest_file:
                 continue
 
     # Remove all duplicates by using a dictionary
+
     print("Removing duplicates ... ")
     reactions = list(dict.fromkeys(reactions))
     print(len(reactions))

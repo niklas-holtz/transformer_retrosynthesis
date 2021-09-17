@@ -11,13 +11,14 @@ all_path = "data/retrosynthesis-all.smi"
 all_lines = io.open(all_path, encoding='UTF-8').read().strip().split('\n')
 
 # Load the extended dataset
-extended_path = "data/full-dataset-adapted.smi"
+extended_path = "data/full-dataset-adapted-canon.smi"
 extended_lines = io.open(extended_path, encoding='UTF-8').read().strip().split('\n')
 # Shuffle the array to have an even distribution of the reactions
 random.shuffle(extended_lines)
 
 max_lines = 225165
-new_file = "data/retrosynthesis-combined.smi"
+max_length = 197
+new_file = "data/retrosynthesis-combined-canon.smi"
 with open(new_file, 'w') as file:
     # Write all files from the original one into the file
     line_counter = len(all_lines)
@@ -32,8 +33,9 @@ with open(new_file, 'w') as file:
         if line_counter >= max_lines:
             break
         print("Checking reaction .. " + str(line_counter))
-        prod = Chem.CanonSmiles(line.split(' >> ')[0])
-        if prod not in canon_data:
+        tmp = line.split(' >> ')
+        prod = Chem.CanonSmiles(tmp[0])
+        if prod not in canon_data and len(tmp[0]) <= max_length and len(tmp[1]) <= max_length:
             line_counter += 1
             file.write(line + "\n")
         else:
