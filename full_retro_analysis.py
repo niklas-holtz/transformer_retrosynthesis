@@ -16,8 +16,7 @@ def main():
     parser.add_argument('--model', type=str, default='trained_models/retro2_200e',
                         help='The path of the model that is used for the prediction.')
     # Translator arguments
-    parser.add_argument('--beam_size', type=int, default=10)
-    parser.add_argument('--max_false_predictions', type=int, default=30)
+    parser.add_argument('--beam_size', type=int, default=5)
 
     args = parser.parse_args()
 
@@ -43,7 +42,7 @@ def main():
     translator = trans.BeamSearchTranslator(transformer)
     print("Starting retrosynthetic analysis for molecule: " + args.product)
     analyser = ga.GreedyAnalyser(translator, transformer)
-    solution = analyser.analyse(args.product, tk)
+    solution = analyser.analyse(args.product, tk, beam_size=args.beam_size)
     print("Retrosynthetic analysis result: ")
     print(solution)
 
