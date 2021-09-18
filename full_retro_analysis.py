@@ -17,6 +17,8 @@ def main():
                         help='The path of the model that is used for the prediction.')
     # Translator arguments
     parser.add_argument('--beam_size', type=int, default=5)
+    # Dictionary path
+    parser.add_argument('--dict', type=str, default='data/full-dataset-adapted-canon.smi')
 
     args = parser.parse_args()
 
@@ -41,7 +43,7 @@ def main():
     # Create the translator
     translator = trans.BeamSearchTranslator(transformer)
     print("Starting retrosynthetic analysis for molecule: " + args.product)
-    analyser = ga.GreedyAnalyser(translator, transformer)
+    analyser = ga.GreedyAnalyser(translator, transformer, args.dict)
     solution = analyser.analyse(args.product, tk, beam_size=args.beam_size)
     print("Retrosynthetic analysis result: ")
     print(solution)

@@ -10,15 +10,15 @@ import tensorflow as tf
 
 class GreedyAnalyser:
 
-    def __init__(self, translator, transformer):
+    def __init__(self, translator, transformer, dict_path):
         self.dict = {}
         self.translator = translator
         self.transformer = transformer
-        self.init_dict()
+        self.init_dict(dict_path)
 
-    def init_dict(self):
+    def init_dict(self, path):
         print('Initializing dictionary ...')
-        lines = io.open('data/full-dataset-adapted-canon.smi', encoding='UTF-8').read().strip().split('\n')
+        lines = io.open(path, encoding='UTF-8').read().strip().split('\n')
         for i, line in enumerate(lines):
             tmp = line.split(' >> ')
             self.dict[tmp[0]] = tmp[1]
