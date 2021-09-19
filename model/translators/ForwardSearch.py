@@ -1,7 +1,3 @@
-import math
-
-import numpy as np
-import tensorflow as tf
 from rdkit import Chem
 
 from . import BeamSearchTranslator
@@ -14,7 +10,7 @@ class ForwardSearchTranslator:
         self.model = model
         self.forward_model = forward_model
 
-    def predict(self, sequence, tk, beam_size=5, validity_check=True, max_false_predictions=10):
+    def predict(self, sequence, tk, beam_size=5, validity_check=True, max_false_predictions=10, forward_beam_size=3):
         beam_search = BeamSearchTranslator(self.model)
         print('> Starting predictions ...')
         text, best_token, all_tokens = beam_search.predict(sequence, tk, beam_size=beam_size,
@@ -33,7 +29,7 @@ class ForwardSearchTranslator:
         # Check for each prediction whether the forward model would predict the original sequence
         for pred_index, token in enumerate(all_tokens):
             print('> Forward validation ' + str(pred_index + 1) + ' ...')
-            _, _, forward_tokens = forward_beam.predict(token, tk, beam_size=3, print_console=False)
+            _, _, forward_tokens = forward_beam.predict(token, tk, beam_size=forward_beam_size, print_console=False)
 
             for forward_index, forward_token in enumerate(forward_tokens):
                 try:

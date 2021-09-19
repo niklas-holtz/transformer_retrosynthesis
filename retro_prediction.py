@@ -74,6 +74,11 @@ def main():
     parser.add_argument('--selfies', type=bool, default=False,
                         help='If true, the model uses SELFIES instead of SMILES.')
     parser.add_argument('--alphabet', type=str, default='The alphabet that was used to train the model.')
+    # Forward
+    parser.add_argument('--forward', type=str, default='The path to a forward model in order to use the forward '
+                                                       'reaction prediction.')
+
+
     args = parser.parse_args()
 
     # Tokenizer
@@ -103,7 +108,22 @@ def main():
     transformer.load_weights(args.model + "/variables/variables")
 
     # Create the translator
-    translator = trans.BeamSearchTranslator(transformer)
+    if len(args.forward) > 0:
+        # Use forward search
+        forward_model = trans.Transformer(
+            num_layers=4,
+            d_model=128,
+            num_heads=8,
+            dff=512,
+            input_vocab_size=tk.get_vocab_size(),
+            target_vocab_size=tk.get_vocab_size(),
+            pe_input=1000,
+            pe_target=1000,
+            rate=0.1)
+        forward_model.load_weights(args.forward + "/variables/variables")
+        translator = trans.ForwardSearchTranslator(transformer, forward_model)
+    else:
+        translator = trans.BeamSearchTranslator(transformer)
 
     if len(args.smiles) > 0:
         predict_reactants(args.smiles, translator=translator, tk=tk)

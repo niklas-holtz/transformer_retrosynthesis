@@ -1,4 +1,5 @@
 data/full-dataset-adapted.smi
+data/full-dataset-adapted-canon.smi
 trained_models/deprecated/*
 test.py
 text_mining
