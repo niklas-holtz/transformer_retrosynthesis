@@ -52,7 +52,7 @@ class ForwardSearchTranslator:
             for i in range(beam_size):
                 if len(predictions) >= beam_size:
                     break
-                if i not in taken_preds:
+                if i not in taken_preds and len(all_tokens) > i:
                     predictions.append([i, all_tokens[i]])
 
         # Sort the predictions by their ranking
