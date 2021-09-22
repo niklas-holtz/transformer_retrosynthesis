@@ -40,7 +40,8 @@ class SelfiesTokenizer(SmilesTokenizer):
         lines = io.open(path, encoding='UTF-8').read().strip().split('\n')
         dataset = []
         print("found " + str(len(lines)))
-        for l in lines[:num_entries]:
+        for idx, l in enumerate(lines[:num_entries]):
+            print(idx)
             for w in l.split(' >> ')[0:2]:
                 selfies = sf.encoder(w)
                 print("appending ... " + selfies)
