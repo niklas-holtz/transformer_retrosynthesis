@@ -75,7 +75,7 @@ def main():
                         help='If true, the model uses SELFIES instead of SMILES.')
     parser.add_argument('--alphabet', type=str, default='The alphabet that was used to train the model.')
     # Forward
-    parser.add_argument('--forward', type=str, default='The path to a forward model in order to use the forward '
+    parser.add_argument('--forward', type=str, default='', help='The path to a forward model in order to use the forward '
                                                        'reaction prediction.')
 
 

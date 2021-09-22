@@ -2,9 +2,10 @@ import argparse
 import model as trans
 import tensorflow as tf
 import logging
+
 # Hide warnings
 tf.get_logger().setLevel(logging.ERROR)
-import greedy_analyser as ga
+import beam_analyser as ga
 
 
 def main():
@@ -13,17 +14,23 @@ def main():
     parser.add_argument('--product', type=str, default='',
                         help='The product for which a retrosynthetic analysis is to be performed.')
     # Model
-    parser.add_argument('--model', type=str, default='trained_models/retro2_200e',
+    parser.add_argument('--model', type=str, default='trained_models/retro2',
                         help='The path of the model that is used for the prediction.')
     # Translator arguments
     parser.add_argument('--beam_size', type=int, default=5)
     # Dictionary path
     parser.add_argument('--dict', type=str, default='data/full-dataset-adapted-canon.smi')
 
+    parser.add_argument('--alphabet', type=str, default='', help='The alphabet that was used to train the model.')
+
     args = parser.parse_args()
 
     # Tokenizer
-    tk = trans.SmilesTokenizer()
+    if len(args.alphabet) < 1:
+        tk = trans.SmilesTokenizer()
+    else:
+        tk = trans.SelfiesTokenizer()
+        tk.load_alphabet_from_file(args.alphabet)
 
     # Create the model
     transformer = trans.Transformer(
@@ -43,7 +50,7 @@ def main():
     # Create the translator
     translator = trans.BeamSearchTranslator(transformer)
     print("Starting retrosynthetic analysis for molecule: " + args.product)
-    analyser = ga.GreedyAnalyser(translator, transformer, args.dict)
+    analyser = ga.BeamAnalyser(translator, transformer, args.dict)
     solution = analyser.analyse(args.product, tk, beam_size=args.beam_size)
     print("Retrosynthetic analysis result: ")
     print(solution)
