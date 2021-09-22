@@ -63,7 +63,7 @@ class BeamAnalyser:
     def is_mol_available(self, smiles):
         return self.is_available_on_molport(smiles) or self.is_available_in_dict(smiles)
 
-    def analyse(self, product, tokenizer, beam_size=6, hard=False):
+    def analyse(self, product, tokenizer, max_iter, beam_size=6, hard=False):
         global fail
         nodes = [ProductNode(product, 0)]
 
@@ -71,6 +71,9 @@ class BeamAnalyser:
         fail = False
         while not nodes_finished(nodes) and not fail:
             print("> Iteration: " + str(iter))
+            if iter > max_iter:
+                print('> Maximum iterations reached!')
+                break
 
             new_nodes = []
             for node in nodes:

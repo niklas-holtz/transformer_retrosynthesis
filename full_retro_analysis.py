@@ -25,6 +25,8 @@ def main():
 
     parser.add_argument('--hard', type=bool, default=False)
 
+    parser.add_argument('-max_iter', type=int, default=12)
+
     args = parser.parse_args()
 
     # Tokenizer
@@ -51,10 +53,10 @@ def main():
 
     # Create the translator
     translator = trans.BeamSearchTranslator(transformer)
-    print("Starting retrosynthetic analysis for molecule: " + args.product)
+    print("> Starting retrosynthetic analysis for molecule: " + args.product)
     analyser = ga.BeamAnalyser(translator, transformer, args.dict)
-    solution = analyser.analyse(args.product, tk, beam_size=args.beam_size, hard=args.hard)
-    print("Retrosynthetic analysis result: ")
+    solution = analyser.analyse(args.product, tk, beam_size=args.beam_size, hard=args.hard, max_iter=args.max_iter)
+    print("> Retrosynthetic analysis result for smiles: " + args.product)
     print(solution)
 
 
