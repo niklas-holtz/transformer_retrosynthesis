@@ -51,7 +51,7 @@ def main():
     translator = trans.BeamSearchTranslator(transformer)
     print("Starting retrosynthetic analysis for molecule: " + args.product)
     analyser = ga.BeamAnalyser(translator, transformer, args.dict)
-    solution = analyser.analyse(args.product, tk, beam_size=args.beam_size)
+    solution = analyser.analyse(args.product, tk, beam_size=args.beam_size, hard=False)
     print("Retrosynthetic analysis result: ")
     print(solution)
 

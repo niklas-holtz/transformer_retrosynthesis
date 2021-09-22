@@ -36,7 +36,7 @@ class BeamAnalyser:
         headers = {
             'Content-type': 'application/json',
         }
-        data = '{"API Key":"880d8343-8ui2-418c-9g7a-68b4e2e78c8b",' \
+        data = '{"API Key":"4e9a806d-7f99-4117-81ae-27d502101434",' \
                '"Structure":"' + smiles + '",' \
                                           '"Search Type":"4",' \
                                           '"Maximum Search Time":60000,' \
@@ -49,6 +49,7 @@ class BeamAnalyser:
             return False
 
         print("Got Molport response ... ")
+        print(response.text)
         data = json.loads(response.text)['Data']
         molecules = data['Molecules']
         print(molecules)
@@ -63,7 +64,7 @@ class BeamAnalyser:
     def is_mol_available(self, smiles):
         return self.is_available_on_molport(smiles) or self.is_available_in_dict(smiles)
 
-    def analyse(self, product, tokenizer, beam_size=6):
+    def analyse(self, product, tokenizer, beam_size=6, hard=False):
         global fail
         nodes = [ProductNode(product, 0)]
 
@@ -103,12 +104,18 @@ class BeamAnalyser:
                             if not Chem.MolFromSmiles(prod_part):
                                 continue
                             canon_token = Chem.CanonSmiles(prod_part)
+
+                            # Check if the molecule is available
+                            available = self.is_mol_available(canon_token)
                             # Calculate the proportional score
-                            score = scores[prod_idx] / len(reactants)
+                            if hard and available:
+                                score = 0
+                            else:
+                                score = scores[prod_idx] / len(reactants)
+
                             # Create a new ProductNode for the token
                             token_node = ProductNode(canon_token, score)
-                            # Check if the molecule is available
-                            token_node.finished = self.is_mol_available(canon_token)
+                            token_node.finished = available
                             # Add the node to the current leave
                             new_node_leave.add_reactant(token_node)
                         new_nodes.append(new_node)
