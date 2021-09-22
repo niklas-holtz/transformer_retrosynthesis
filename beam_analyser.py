@@ -42,14 +42,13 @@ class BeamAnalyser:
                                           '"Maximum Search Time":60000,' \
                                           '"Maximum Result Count":1}'
 
-        print("Sending Molport request ... ")
+        print("Sending Molport request for smiles: " + smiles)
         try:
             response = requests.post('https://api.molport.com/api/chemical-search/search', headers=headers, data=data)
         except TimeoutError:
             return False
 
         print("Got Molport response ... ")
-        print(response.text)
         data = json.loads(response.text)['Data']
         molecules = data['Molecules']
         print(molecules)
@@ -97,7 +96,8 @@ class BeamAnalyser:
                         reactants = prod.split('.')
 
                         # Skip if its the same as the leave
-                        if len(reactants) == 1 and Chem.CanonSmiles(prod) == Chem.CanonSmiles(leave.product):
+                        if new_node.has(prod):
+                            print("Skipping leave prediction ...")
                             continue
 
                         for prod_part in reactants:
@@ -160,6 +160,25 @@ class ProductNode:
                 return False
 
         return True
+
+    def has(self, smiles):
+        if len(self.reactants) < 1:
+            return False
+
+        reactants = ''
+        for idx, child in enumerate(self.reactants):
+            reactants += child.product
+            if idx < (len(self.reactants) - 1):
+                reactants += '.'
+
+        if Chem.CanonSmiles(reactants) == Chem.CanonSmiles(smiles):
+            return True
+
+        for child in self.reactants:
+            if child.has(smiles):
+                return True
+
+        return False
 
     def get_unfinished_leaves(self):
         if len(self.reactants) < 1 and not self.finished:
