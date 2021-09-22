@@ -23,6 +23,8 @@ def main():
 
     parser.add_argument('--alphabet', type=str, default='', help='The alphabet that was used to train the model.')
 
+    parser.add_argument('--hard', type=bool, default=False)
+
     args = parser.parse_args()
 
     # Tokenizer
@@ -51,7 +53,7 @@ def main():
     translator = trans.BeamSearchTranslator(transformer)
     print("Starting retrosynthetic analysis for molecule: " + args.product)
     analyser = ga.BeamAnalyser(translator, transformer, args.dict)
-    solution = analyser.analyse(args.product, tk, beam_size=args.beam_size, hard=False)
+    solution = analyser.analyse(args.product, tk, beam_size=args.beam_size, hard=args.hard)
     print("Retrosynthetic analysis result: ")
     print(solution)
 
