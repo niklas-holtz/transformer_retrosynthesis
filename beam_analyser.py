@@ -36,7 +36,7 @@ class BeamAnalyser:
         headers = {
             'Content-type': 'application/json',
         }
-        data = '{"API Key":"4e9a806d-7f99-4117-81ae-27d502101434",' \
+        data = '{"API Key":"82396bfe-69a1-41c6-95e6-e46f748f6980",' \
                '"Structure":"' + smiles + '",' \
                                           '"Search Type":"4",' \
                                           '"Maximum Search Time":60000,' \
