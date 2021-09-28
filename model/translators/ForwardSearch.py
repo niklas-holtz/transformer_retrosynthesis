@@ -36,7 +36,7 @@ class ForwardSearchTranslator:
                     # Check if the smiles strings are the same
                     if Chem.CanonSmiles(sequence) == Chem.CanonSmiles(forward_token):
                         # Create a ranking for the prediction
-                        ranking = pred_index + forward_index
+                        ranking = (pred_index / 2) + forward_index
                         # Save the prediction with its ranking
                         predictions.append([ranking, token])
                         # Save the index of the sequence
