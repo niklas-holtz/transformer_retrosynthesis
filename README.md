@@ -26,7 +26,7 @@ python retro_prediction.py --model=trained_models/retro4 --test_data=data/retros
 
 Here the `model` argument specifies the path to the trained model. The argument `test_data` specifies a file containing several chemical reactions. For these, the outputs are then iteratively generated and the accuracy of the model is calculated. Last but not least, the `forward` argument specifies the optional path to a model for forward reaction prediction.
 
-However, it is also possible to get the output for a single input. This can be achieved for example with the following command.
+Additionally, it is also possible to get the output for a single input. This can be achieved for example with the following command.
 
 ```
 python retro_prediction.py --model=trained_models/retro4 --smiles="Fc1cc2c(NC3CCCCCC3)ncnc2cn1"
