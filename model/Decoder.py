@@ -30,9 +30,7 @@ class Decoder(tf.keras.layers.Layer):
         x = self.dropout(x, training=training)
 
         for i in range(self.num_layers):
-            x, block1, block2 = self.dec_layers[i](x, enc_output, training,
-                                                   look_ahead_mask, padding_mask)
-
+            x, block1, block2 = self.dec_layers[i](x, enc_output, training, look_ahead_mask, padding_mask)
             attention_weights[f'decoder_layer{i + 1}_block1'] = block1
             attention_weights[f'decoder_layer{i + 1}_block2'] = block2
 

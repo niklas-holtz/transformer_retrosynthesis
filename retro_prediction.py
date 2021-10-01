@@ -4,6 +4,11 @@ import time
 
 import model as trans
 from rdkit import Chem
+import tensorflow as tf
+import logging
+
+# Hide warnings
+tf.get_logger().setLevel(logging.ERROR)
 
 
 def predict_reactants(smiles, translator, tk, expected="unknown"):
@@ -70,6 +75,7 @@ def main():
     # For predicting just a single line
     parser.add_argument('--smiles', type=str, default='', help='If the parameter "eval" is false, a single '
                                                                'translation is output for this smiles string.')
+    parser.add_argument('--greedy', type=bool, default=False, help='If true, the algorithm uses a greedy search method instead of beam search.')
     # Selfies
     parser.add_argument('--alphabet', type=str, default='', help='The alphabet that was used to train the model.')
     # Forward
@@ -106,7 +112,9 @@ def main():
     transformer.load_weights(args.model + "/variables/variables")
 
     # Create the translator
-    if len(args.forward) > 0:
+    if args.greedy:
+        translator = trans.GreedyTranslator(transformer)
+    elif len(args.forward) > 0:
         # Since we only use SMILES for the training of forward models we need the tokenizer for this model
         forward_tk = trans.SmilesTokenizer()
         # Init forward model

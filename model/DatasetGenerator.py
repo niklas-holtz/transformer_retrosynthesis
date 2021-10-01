@@ -5,6 +5,9 @@ import tensorflow as tf
 
 
 class DatasetGenerator:
+    """
+    This generator allows to create a dataset for a given path and encode it using a tokenizer.
+    """
 
     def __init__(self, tokenizer):
         self.tokenizer = tokenizer

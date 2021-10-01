@@ -2,7 +2,10 @@ import numpy as np
 
 
 class SmilesTokenizer:
-    #chars = " ^#%()+-./0123456789=@ABCDEFGHIKLMNOPRSTUVXYZ[\\]abcdefgilmnoprstuy$"
+    """
+    This tokenizer is used to encode a molecule by using SMILES.
+    """
+
     chars = " ^#%()+-./0123456789=@ABCDEFGHIKLMNOPRSTVXYZ[\\]abcdefgilmnoprstuy$"
     vocab_size = len(chars)
 
@@ -14,9 +17,15 @@ class SmilesTokenizer:
         return self.vocab_size
 
     def get_sos_token(self):
+        """
+        :return: the start of sequence token
+        """
         return self.char_to_ix['^']
 
     def get_eos_token(self):
+        """
+        :return: the end of sequence token
+        """
         return self.char_to_ix['$']
 
     def tokenize(self, input):

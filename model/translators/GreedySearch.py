@@ -5,6 +5,9 @@ from ..Transformer import Transformer
 
 
 class GreedyTranslator:
+    """
+    This translator creates the greedy solution for a given product.
+    """
 
     def __init__(self, model: Transformer):
         self.model = model
@@ -35,7 +38,7 @@ class GreedyTranslator:
         for i in range(max_length):
 
             # Predict
-            predictions, attention_weights = self.model(inp_sequence, output, False)
+            predictions, attention_weights = self.model(inp_sequence, output, training=False)
             # select the last word from the seq_len dimension
             predictions = predictions[:, -1:, :]  # (batch_size, 1, vocab_size)
             predicted_id = tf.argmax(predictions, axis=-1)
@@ -51,4 +54,4 @@ class GreedyTranslator:
         tokens = output.numpy()[0]
         text = tk.detokenize(tokens)
 
-        return text, tokens, attention_weights
+        return text, tokens, [text]

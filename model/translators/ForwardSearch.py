@@ -5,6 +5,9 @@ from ..Transformer import Transformer
 
 
 class ForwardSearchTranslator:
+    """
+    This translator uses the forward reaction prediction to evaluate the results of an additional beam search translator.
+    """
 
     def __init__(self, model: Transformer, forward_model: Transformer, forward_tk):
         self.model = model
@@ -37,7 +40,7 @@ class ForwardSearchTranslator:
                     # Check if the smiles strings are the same
                     if Chem.CanonSmiles(sequence) == Chem.CanonSmiles(forward_token):
                         # Create a ranking for the prediction
-                        ranking = (pred_index / 2) + forward_index
+                        ranking = pred_index + forward_index
                         # Save the prediction with its ranking
                         predictions.append([ranking, token])
                         # Save the index of the sequence

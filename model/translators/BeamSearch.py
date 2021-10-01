@@ -8,6 +8,9 @@ from ..Transformer import Transformer
 
 
 class BeamSearchTranslator:
+    """
+    This translator allows to generate the best solutions for a Transformer model using beam search.
+    """
 
     def __init__(self, model: Transformer):
         self.model = model

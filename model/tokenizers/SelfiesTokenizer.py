@@ -6,9 +6,13 @@ from . import SmilesTokenizer
 
 
 class SelfiesTokenizer(SmilesTokenizer):
+    """
+    This Tokenizer is used to encode molecules by using SELFIES.
+    """
 
     def __init__(self):
         super().__init__()
+        # Declare a simple default alphabet.
         self.alphabet = ['[nop]', '[^]', '.', '[C@expl]', '[/S@expl]', '[Br]', '[=PH2expl]', '[=PHexpl]', '[/I]',
                          '[B-expl]', '[C@Hexpl]', '[Branch1_2]', '[Expl=Ring2]', '[P]', '[Mg+expl]',
                          '[NH2+expl]', '[S@expl]', '[Expl=Ring1]', '[NH+expl]', '[/S]', '[Cl]', '[C@@expl]', '[Seexpl]',
@@ -90,9 +94,15 @@ class SelfiesTokenizer(SmilesTokenizer):
         return sf.decoder(result)
 
     def get_sos_token(self):
+        """
+        :return: the start of sequence token
+        """
         return self.char_to_ix['[^]']
 
     def get_eos_token(self):
+        """
+        :return: the end of sequence token
+        """
         return self.char_to_ix['[$]']
 
     def get_vocab_size(self):
